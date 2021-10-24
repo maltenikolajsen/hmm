@@ -1,3 +1,7 @@
+# HMM
+
+### Purpose and goal
+
 The purpose of this package is to implement methods for handling Hidden Markov Models in a sensible way.
 
 The goal is to define a HMM as a sensible S3 or S4 object, and define various methods for such objects.
@@ -6,7 +10,9 @@ These methods should be implemented using classic methods from HMM theory, such 
 
 The interface should be somewhat similar to that of lm.
 
+### Authors
+
 This project is made by:
-Asbjørn Holk Thomsen     
+AsbjÃ¸rn Holk Thomsen     
 Malte Nikolajsen
 Leander Tilsted Kristensen
