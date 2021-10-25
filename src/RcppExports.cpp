@@ -10,6 +10,18 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
+// backward_ll_cpp
+NumericMatrix backward_ll_cpp(NumericMatrix Gamma, NumericMatrix p);
+RcppExport SEXP _hmm_backward_ll_cpp(SEXP GammaSEXP, SEXP pSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type Gamma(GammaSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type p(pSEXP);
+    rcpp_result_gen = Rcpp::wrap(backward_ll_cpp(Gamma, p));
+    return rcpp_result_gen;
+END_RCPP
+}
 // backward_prob_cpp
 NumericMatrix backward_prob_cpp(NumericMatrix Gamma, NumericMatrix p);
 RcppExport SEXP _hmm_backward_prob_cpp(SEXP GammaSEXP, SEXP pSEXP) {
@@ -19,6 +31,19 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericMatrix >::type Gamma(GammaSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type p(pSEXP);
     rcpp_result_gen = Rcpp::wrap(backward_prob_cpp(Gamma, p));
+    return rcpp_result_gen;
+END_RCPP
+}
+// forward_ll_cpp
+NumericMatrix forward_ll_cpp(NumericMatrix Gamma, NumericMatrix p, NumericVector delta);
+RcppExport SEXP _hmm_forward_ll_cpp(SEXP GammaSEXP, SEXP pSEXP, SEXP deltaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type Gamma(GammaSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type p(pSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type delta(deltaSEXP);
+    rcpp_result_gen = Rcpp::wrap(forward_ll_cpp(Gamma, p, delta));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -37,7 +62,9 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_hmm_backward_ll_cpp", (DL_FUNC) &_hmm_backward_ll_cpp, 2},
     {"_hmm_backward_prob_cpp", (DL_FUNC) &_hmm_backward_prob_cpp, 2},
+    {"_hmm_forward_ll_cpp", (DL_FUNC) &_hmm_forward_ll_cpp, 3},
     {"_hmm_forward_prob_cpp", (DL_FUNC) &_hmm_forward_prob_cpp, 3},
     {NULL, NULL, 0}
 };
