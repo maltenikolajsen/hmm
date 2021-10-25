@@ -29,10 +29,9 @@ NumericMatrix forward_prob_cpp(NumericMatrix Gamma, NumericMatrix p, NumericVect
     for(int j=0; j<m; j++){
       double alpha_ji = 0;
       for(int k=0; k<m; k++){
-        alpha_ji += alpha(k, i-1) * Gamma(k, j) * p(j, i);
-        // read as: Prob of being in state k at time i-1 * going from k to j * observing x_i in state j
+        alpha_ji += alpha(k, i-1) * Gamma(k, j);
       }
-      alpha(j, i) = alpha_ji;
+      alpha(j, i) = alpha_ji * p(j, i);
     }
   }
 
