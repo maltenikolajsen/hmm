@@ -132,7 +132,7 @@ hehexd <- function(
 }
 
 #Stupid data
-observation <- rnorm(100, sd = 4)
+observation <- read.table("http://www.hmms-for-time-series.de/second/data/earthquakes.txt")$V2
 m <- 2
 lls <- list(
   function(x, param) dnorm(x, mean = param[1], sd = param[2]),
@@ -147,28 +147,29 @@ param_lls_ub <- c(Inf, Inf, Inf, Inf)
 delta <- rep(.5, m)
 gamma <- matrix(rep(.5, m^2), nrow = 2)
 
-a <- hehexd(observation,
+hehexd(observation,
        m,
        lls,
        param_lls,
        param_lls_lb,
        param_lls_ub,
        delta,
-       gamma)
+       gamma,
+       no_iter = 5000)
 
 #EARTHQUAKE DATA
 observation <- read.table("http://www.hmms-for-time-series.de/second/data/earthquakes.txt")$V2
 m <- 2
 lls <- list(
   function(x, param) dpois(x, param[1]),
-  function(x, param) dpois(x, param[1])
+  function(x, param) dnorm(x, mean = param[1], sd = param[2])#function(x, param) dpois(x, param[1])
 )
 param_lls <- list(
   c(10),
-  c(10)
+  c(3, 4)
 )
-param_lls_lb <- c(0,0 )
-param_lls_ub <- c(Inf, Inf)
+param_lls_lb <- c(0,-Inf,0)
+param_lls_ub <- c(Inf, Inf, Inf)
 delta <- rep(.5, m)
 gamma <- matrix(rep(.5, m^2), nrow = 2)
 a <- hehexd(observation,
