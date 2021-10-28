@@ -1,3 +1,5 @@
+# Doing forward and backward algorithms in R is slooow - I suggest we use C++ instead
+
 fa.ll <- function(
   observation, #Observations
   delta, #Starting probabilities
@@ -99,7 +101,7 @@ fa.ll.wrapper <- function(observation, m, lls, param_lls){
 }
 
 
-hehexd <- function(
+hehexd <- function( # wtf are these names
   observation,
   m,
   lls,
