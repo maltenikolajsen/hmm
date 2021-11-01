@@ -13,7 +13,7 @@
 #' @export
 #'
 #' @examples TODO
-forward_logprobabilities <- function(x, Gamma, p, delta){
-  p_mat <- outer(1:ncol(Gamma), x, FUN=p)
+forward_logprobabilities <- function(p_mat, Gamma, delta){
+  #p_mat <- outer(1:ncol(Gamma), x, FUN=p)
   return(forward_ll_cpp(log(Gamma), log(p_mat), log(delta)))
 }

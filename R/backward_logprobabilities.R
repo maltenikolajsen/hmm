@@ -13,7 +13,7 @@
 #' @export
 #'
 #' @examples TODO
-backward_logprobabilities <- function(x, Gamma, p){
-  p_mat <- outer(1:ncol(Gamma), x, FUN=p)
+backward_logprobabilities <- function(p_mat, Gamma){
+  #p_mat <- outer(1:ncol(Gamma), x, FUN=p)
   return(backward_ll_cpp(log(Gamma), log(p_mat)))
 }
