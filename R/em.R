@@ -1,51 +1,6 @@
-get_log_beta <- function(
-  log_p_mat,
-  log_gamma
-){
-  m <- ncol(log_gamma); n <- length(log_p_mat) / m
-
-  log_beta <- matrix(NA, nrow = m, ncol = n)
-
-  log_beta[,n] <- rep(0, m)
-
-  for(i in (n-1):1){
-    tmp_logbeta <- rep(NA, m)
-    for(j in 1:m){
-      #tmp_zeta <- log(transition[j,]) + log(helper_function(observation[i])) + logbeta[[i+1]]
-
-      tmp_zeta <- log_gamma[j,] + log_p_mat[,i] + log_beta[,i+1]
-      logxi_star <- max(tmp_zeta)
-      tmp_logbeta[j] <- logxi_star + log(sum(exp(tmp_zeta - logxi_star)))
-    }
-    log_beta[,i] <- tmp_logbeta
-  }
-
-  log_beta
-}
-
-get_log_alpha <- function(
-  log_p_mat,
-  log_gamma,
-  log_delta
-){
-  m <- ncol(log_gamma); n <- length(log_p_mat) / m
-
-  log_alpha <- matrix(NA, nrow = m, ncol = n)
-
-  log_alpha[,1] <-  log_p_mat[,1] + log_delta
-
-  for(i in 2:n){
-    for(j in 1:m){
-      tmp_zeta <- as.vector(log_gamma[j,]) + log_p_mat[,i] + log_alpha[,i-1]
-      logxi_star <- max(tmp_zeta)
-      log_alpha[j,i] <- logxi_star + log(sum(exp(tmp_zeta - logxi_star)))
-    }
-  }
-
-  log_alpha
-}
-
-
+#' @title em
+#'
+#' @export
 em <- function(obs, gamma, delta, lls, param_lls, lls_mle, max_iter = 1){
 
   n <- length(obs)
@@ -64,12 +19,13 @@ em <- function(obs, gamma, delta, lls, param_lls, lls_mle, max_iter = 1){
     log_delta <- log(delta)
 
 
-    log_beta <- get_log_beta(log_p_mat, log_gamma)
-      #backward_logprobabilities(p_mat, gamma)
-    log_alpha <- forward_logprobabilities(p_mat, gamma, delta)
-      #forward_logprobabilities(p_mat, gamma, delta)
+    #log_beta <- get_log_beta(log_p_mat, log_gamma)
+    log_beta <- backward_ll_cpp(log_gamma, log_p_mat)
+    #log_alpha <- forward_logprobabilities(p_mat, gamma, delta) // Der var fejl i disse alligevel
+    log_alpha <- forward_ll_cpp(log_gamma, log_p_mat, log_delta)
 
     #Noget galt!
+    # Ja, at der er andet end én funktion i denne R fil lol
 
     c <- max(log_alpha[,n])
     log_ll <- c + log(sum(exp(log_alpha[,n] - c)))
@@ -110,13 +66,3 @@ em <- function(obs, gamma, delta, lls, param_lls, lls_mle, max_iter = 1){
   #list(log_alpha, p_mat)
   #log_alpha
 }
-
-
-obs <- read.table("http://www.hmms-for-time-series.de/second/data/earthquakes.txt")$V2
-delta <- c(.3, .7)
-gamma <- matrix(c(.25, .75, .75, .25), nrow = 2, byrow = T)
-lls <- list(function(x, param) dpois(x, param), function(x, param) dpois(x, param))
-param_lls <- list(10, 30)
-lls_mle <- list(function(x, u) sum(x * u) / sum(u), function(x, u) sum(x * u) / sum(u))
-a <- em(obs, gamma, delta, lls, param_lls, lls_mle, max_iter = 20)
-print(a)
