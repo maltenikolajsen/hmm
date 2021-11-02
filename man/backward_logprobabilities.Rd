@@ -12,8 +12,6 @@ backward_logprobabilities(x, Gamma, p)
 \item{Gamma}{Matrix (m x m) of transition probabilities of the underlying Markov chain}
 
 \item{p}{A function where p(i, x)=P(X_t=x | Y_t=i)}
-
-\item{delta}{Vector of starting probabilities, i.e. the distribution of Y_1}
 }
 \value{
 A matrix (m x n) of backward log-probabilities.

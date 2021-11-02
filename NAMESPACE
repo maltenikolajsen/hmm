@@ -2,6 +2,7 @@
 
 export(backward_logprobabilities)
 export(backward_probabilities)
+export(em)
 export(forward_logprobabilities)
 export(forward_probabilities)
 importFrom(Rcpp,sourceCpp)
