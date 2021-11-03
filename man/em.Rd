@@ -4,7 +4,16 @@
 \alias{em}
 \title{em}
 \usage{
-em(obs, gamma, delta, lls, param_lls, lls_mle, max_iter = 1)
+em(
+  obs,
+  gamma,
+  delta,
+  lls,
+  param_lls,
+  lls_mle,
+  epsilon = 10^(-4),
+  max_iter = 1000
+)
 }
 \description{
 em

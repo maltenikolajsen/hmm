@@ -1,7 +1,10 @@
 #' @title em
 #'
 #' @export
-em <- function(obs, gamma, delta, lls, param_lls, lls_mle, max_iter = 1){
+em <- function(obs, gamma, delta, lls, param_lls, lls_mle, epsilon = 10^(-4), max_iter = 1000){
+
+  # Create vector of log-likelihoods - initialize with Inf for comparison purposes
+  logLs <- c()
 
   # Set n and m for notation
   n <- length(obs)
@@ -30,6 +33,12 @@ em <- function(obs, gamma, delta, lls, param_lls, lls_mle, max_iter = 1){
     k <- max(log_alpha[,n])
     log_ll <- k + log(sum(exp(log_alpha[,n] - k))) # Please don't use 'c' as variable
 
+    # Break if change in log-likelihood is small
+    if(iteration > 1 && abs(log_ll - logLs[iteration-1]) < epsilon){
+      break
+    }
+    logLs[iteration] <- log_ll
+
     #E step
 
     # u_hat = matrix where u_hat[i, j]=P(C_j=i | X=obs)
@@ -47,24 +56,27 @@ em <- function(obs, gamma, delta, lls, param_lls, lls_mle, max_iter = 1){
         #print(log_v_hat_jk)
         #print("NEXT")
         f[j,k] <- sum(v_hat_jk)
-        c <- max(log_v_hat_jk)
-        log_f[j,k] <- c + log(sum(exp(log_v_hat_jk - c)))
+        k <- max(log_v_hat_jk)
+        log_f[j,k] <- k + log(sum(exp(log_v_hat_jk - k)))
       }
     }
 
 
     #M step
+
+    # Update transition probs and initial dist
     delta <- u_hat[,1]
     gamma <- f / rowSums(f)
 
+    # Update parameters for conditional densities
     for(i in 1:m){
       param_lls[[i]] <- lls_mle[[i]](obs, u_hat[i,])
     }
-
-    #print(param_lls)
-    #print(-log_ll)
   }
-  list(delta = delta, gamma = gamma, param_lls = param_lls, log_ll = log_ll)
-  #list(log_alpha, p_mat)
-  #log_alpha
+  return(list(log_likelihoods = logLs,
+              n_iter = length(logLs),
+              delta = delta,
+              gamma = gamma,
+              param_lls = param_lls,
+              log_likelihood = log_ll))
 }
