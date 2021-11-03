@@ -3,34 +3,36 @@
 #' @export
 em <- function(obs, gamma, delta, lls, param_lls, lls_mle, max_iter = 1){
 
+  # Set n and m for notation
   n <- length(obs)
   m <- ncol(gamma)
 
+  # Define p-function in proper format for backward- and forward algos
   p <- function(state, x){
     lls[[state]](x, param_lls[[state]])
   }
   p <- Vectorize(p)
 
+  # Iterate E- and M-step a total of max_iter times
+  # TODO: Add convergence break
   for(iteration in 1:max_iter){
 
+    # Get forward and backward log-probabilities
     p_mat <- outer(1:m, obs, p)
     log_p_mat <- log(p_mat)
     log_gamma <- log(gamma)
     log_delta <- log(delta)
 
-
-    #log_beta <- get_log_beta(log_p_mat, log_gamma)
     log_beta <- backward_ll_cpp(log_gamma, log_p_mat)
-    #log_alpha <- forward_logprobabilities(p_mat, gamma, delta) // Der var fejl i disse alligevel
     log_alpha <- forward_ll_cpp(log_gamma, log_p_mat, log_delta)
 
-    #Noget galt!
-    # Ja, at der er andet end én funktion i denne R fil lol
-
-    c <- max(log_alpha[,n])
-    log_ll <- c + log(sum(exp(log_alpha[,n] - c)))
+    # Get log-likelihood of entire data-set
+    k <- max(log_alpha[,n])
+    log_ll <- k + log(sum(exp(log_alpha[,n] - k))) # Please don't use 'c' as variable
 
     #E step
+
+    # u_hat = matrix where u_hat[i, j]=P(C_j=i | X=obs)
     log_u_hat <- log_beta + log_alpha - log_ll
     u_hat <- exp(log_u_hat)
 
@@ -52,7 +54,7 @@ em <- function(obs, gamma, delta, lls, param_lls, lls_mle, max_iter = 1){
 
 
     #M step
-    delta <- u_hat[,1] / sum(u_hat[,1])
+    delta <- u_hat[,1]
     gamma <- f / rowSums(f)
 
     for(i in 1:m){
