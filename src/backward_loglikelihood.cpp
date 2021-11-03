@@ -21,7 +21,7 @@ NumericMatrix backward_ll_cpp(NumericMatrix Gamma, NumericMatrix p) {
     for(int j=0; j<m; j++){
       double beta_ji = 0;
       for(int k=0; k<m; k++){
-        beta_ji += exp(Gamma(j, k) + p(k, i) + logbeta(j, i) - c);
+        beta_ji += exp(Gamma(j, k) + p(k, i) + logbeta(k, i) - c);
       }
       logbeta(j, i-1) = c + log(beta_ji);
     }

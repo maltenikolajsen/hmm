@@ -20,9 +20,9 @@ NumericMatrix backward_prob_cpp(NumericMatrix Gamma, NumericMatrix p) {
     for(int j=0; j<m; j++){
       double beta_ji = 0;
       for(int k=0; k<m; k++){
-        beta_ji += Gamma(j, k) * p(k, i);
+        beta_ji += Gamma(j, k) * p(k, i) * beta(k, i);
       }
-      beta(j, i-1) = beta_ji * beta(j, i);
+      beta(j, i-1) = beta_ji;
     }
   }
 
