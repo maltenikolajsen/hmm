@@ -1,6 +1,26 @@
-#' @title em
+#' em
 #'
+#' @description
+#' Calculates approximate MLE's of all involved parameters, i.e. initial distribution probabilities, transition probabilities and whichever parameters are required for the marginal distribution of the emissions.
+#'
+#' @param obs The observed data
+#' @param gamma Initial value of transition matrix
+#' @param delta Initial value of initial distribution
+#' @param lls List of marginal densities
+#' @param param_lls List of parameters for marginal densities
+#' @param lls_mle List of functions that generate MLE's
+#' @param epsilon Threshold to stop algorithm when difference in log-likelihood is less than this
+#' @param max_iter Maximum number of iterations before stopping
+#'
+#' @details
+#' Add some details.
+#'
+#' @return A list of log-likelihoods, parameter estimates and number of iterations.
 #' @export
+#'
+#' @examples
+#' #TODO
+#'
 em <- function(obs, gamma, delta, lls, param_lls, lls_mle, epsilon = 10^(-4), max_iter = 1000){
 
   # Create vector of log-likelihoods - initialize with Inf for comparison purposes
@@ -75,7 +95,7 @@ em <- function(obs, gamma, delta, lls, param_lls, lls_mle, epsilon = 10^(-4), ma
   }
 
   #AIC, BIC
-  p <- 0
+  p <- m^2 - 1 # We also estimate the transition probs (m(m-1)) and init. dist. (m-1) so (m+1)(m-1)=m^2-1
   for(param in param_lls){
     p <- p + length(param)
   }

@@ -15,6 +15,33 @@ em(
   max_iter = 1000
 )
 }
+\arguments{
+\item{obs}{The observed data}
+
+\item{gamma}{Initial value of transition matrix}
+
+\item{delta}{Initial value of initial distribution}
+
+\item{lls}{List of marginal densities}
+
+\item{param_lls}{List of parameters for marginal densities}
+
+\item{lls_mle}{List of functions that generate MLE's}
+
+\item{epsilon}{Threshold to stop algorithm when difference in log-likelihood is less than this}
+
+\item{max_iter}{Maximum number of iterations before stopping}
+}
+\value{
+A list of log-likelihoods, parameter estimates and number of iterations.
+}
 \description{
-em
+Calculates approximate MLE's of all involved parameters, i.e. initial distribution probabilities, transition probabilities and whichever parameters are required for the marginal distribution of the emissions.
+}
+\details{
+Add some details.
+}
+\examples{
+#TODO
+
 }
