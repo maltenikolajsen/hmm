@@ -13,6 +13,6 @@ The interface should be somewhat similar to that of lm.
 ### Authors
 
 This project is made by:
-- [Asbjørn Holk Thomsen](https://github.com/asbjornholk)
-- [Malte Nikolajsen](https://github.com/maltenikolajsen)
-- [Leander Tilsted Kristensen](https://github.com/LeanderTilsted)
+- [Malte Nikolajsen](https://github.com/maltenikolajsen) (Project Manager)
+- [Asbjørn Holk Thomsen](https://github.com/asbjornholk) (Quality Manager)
+- [Leander Tilsted Kristensen](https://github.com/LeanderTilsted) (Documentation Manager)
