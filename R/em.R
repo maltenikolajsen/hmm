@@ -93,10 +93,22 @@ em <- function(obs, gamma, delta, lls, param_lls, lls_mle, epsilon = 10^(-4), ma
       param_lls[[i]] <- lls_mle[[i]](obs, u_hat[i,])
     }
   }
+
+  #AIC, BIC
+  p <- 0
+  for(param in param_lls){
+    p <- p + length(param)
+  }
+  aic <- -2 * logLs[iteration-1] + 2 * p
+  bic <- -2 * logLs[iteration-1] + p * log(n)
+
+
   return(list(log_likelihoods = logLs,
               n_iter = length(logLs),
               delta = delta,
               gamma = gamma,
               param_lls = param_lls,
-              log_likelihood = log_ll))
+              log_likelihood = log_ll,
+              aic = aic,
+              bic = bic))
 }
