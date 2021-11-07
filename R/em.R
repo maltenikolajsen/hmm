@@ -71,10 +71,6 @@ em <- function(obs, gamma, delta, lls, param_lls, lls_mle, epsilon = 10^(-4), ma
       for(k in 1:m){
         log_v_hat_jk <- log_alpha[j,1:(n-1)] + log_gamma[j,k] + log_p_mat[k,2:n] + log_beta[k,2:n] - log_ll
         v_hat_jk <- exp(log_v_hat_jk)
-        #print("NEXT")
-        #print(log_v_hat_jk)
-        #print(log_v_hat_jk)
-        #print("NEXT")
         f[j,k] <- sum(v_hat_jk)
         k <- max(log_v_hat_jk)
         log_f[j,k] <- k + log(sum(exp(log_v_hat_jk - k)))
@@ -106,8 +102,8 @@ em <- function(obs, gamma, delta, lls, param_lls, lls_mle, epsilon = 10^(-4), ma
   return(list(log_likelihoods = logLs,
               n_iter = length(logLs),
               delta = delta,
-              gamma = gamma,
-              param_lls = param_lls,
+              Gamma = gamma,
+              parameters = param_lls,
               log_likelihood = log_ll,
               aic = aic,
               bic = bic))
