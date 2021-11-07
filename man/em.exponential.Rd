@@ -4,10 +4,10 @@
 \alias{em.exponential}
 \title{em.exponential}
 \usage{
-em.exponential(obs, gamma, delta, lambda, ...)
+em.exponential(obs, gamma, delta, rate, ...)
 }
 \arguments{
-\item{lambda}{}
+\item{rate}{}
 }
 \value{
 

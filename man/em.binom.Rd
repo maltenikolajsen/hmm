@@ -4,10 +4,10 @@
 \alias{em.binom}
 \title{em.binom}
 \usage{
-em.binom(obs, gamma, delta, n, p, ...)
+em.binom(obs, gamma, delta, size, prob, ...)
 }
 \arguments{
-\item{p}{}
+\item{prob}{}
 }
 \value{
 

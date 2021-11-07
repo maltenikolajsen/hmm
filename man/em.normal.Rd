@@ -4,10 +4,10 @@
 \alias{em.normal}
 \title{em.normal}
 \usage{
-em.normal(obs, gamma, delta, mu, sigma, ...)
+em.normal(obs, gamma, delta, mean, sd, ...)
 }
 \arguments{
-\item{sigma}{}
+\item{sd}{}
 }
 \value{
 
