@@ -25,6 +25,7 @@
 #' | `Gamma`      | The transition probability matrix of the underlying Markov chain. |
 #' | `delta`      | The initial distribution of the underlying Markov chain.          |
 #' | `parameters` | List of parameters for the emission distribution family.          |
+#' | `rdists`     | List of functions used for simulating. Mostly for internal use.   |
 #'
 #' If `x` is not `NULL`, it will also include:
 #'
@@ -92,11 +93,11 @@ hmm <- function(x, Gamma, delta, dist=NULL, ..., estimate=!is.null(x)){
   # Calculate log-likelihood, AIC and BIC if x is not NULL
   if(!is.null(x)){
     p <- switch (dist,
-                 NULL = function(state, x) {lls[[state]](x, parameters[[state]])},
-                 'poisson' = function(state, x) {dpois(x, parameters[state])},
-                 'normal' = function(state, x) {dnorm(x, mean=parameters$mean[state], sd=parameters$sd[state])},
-                 'binom' = function(state, x) {dbinom(x, size=parameters$size, prob=parameters$prob[state])},
-                 'exponential' = function(state, x) {dexp(x, parameters[state])}
+     NULL = function(state, x) {lls[[state]](x, parameters[[state]])},
+     'poisson' = function(state, x) {dpois(x, parameters[state])},
+     'normal' = function(state, x) {dnorm(x, mean=parameters$mean[state], sd=parameters$sd[state])},
+     'binom' = function(state, x) {dbinom(x, size=parameters$size, prob=parameters$prob[state])},
+     'exponential' = function(state, x) {dexp(x, parameters[state])}
     )
     log_alpha <- forward_logprobabilities(x, Gamma, p, delta)
     k <- max(log_alpha[, length(x)])
@@ -113,11 +114,31 @@ hmm <- function(x, Gamma, delta, dist=NULL, ..., estimate=!is.null(x)){
     out$BIC <- BIC
   }
 
+  # Make list of rdist functions
+  if(!is.null(dist)){
+    rdists = list()
+    # NOTE: R's promise objects are *very* weird here, so some hacky fixes are required - but it works!
+    rdist_state <- function(state){
+      state
+      switch (dist,
+       'poisson' = function(n) {rpois(n, parameters[state])},
+       'normal' = function(n) {rnorm(n, mean=parameters$mean[state], sd=parameters$sd[state])},
+       'binom' = function(n) {rbinom(n, size=parameters$size, prob=parameters$prob[state])},
+       'exponential' = function(n) {rexp(n, parameters[state])}
+      )
+    }
+
+    for(j in 1:length(delta)){
+      rdists[[j]] <- rdist_state(j)
+    }
+  }
+
   # Add defaults to output
   out <- c(out, list(
     Gamma=Gamma,
     delta=delta,
-    parameters=parameters
+    parameters=parameters,
+    rdists=rdists
   ))
 
   class(out) <- 'hmm'

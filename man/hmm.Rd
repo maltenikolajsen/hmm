@@ -29,6 +29,7 @@ An object of class 'hmm' is a list containing at least the following components:
    \code{Gamma} \tab The transition probability matrix of the underlying Markov chain. \cr
    \code{delta} \tab The initial distribution of the underlying Markov chain. \cr
    \code{parameters} \tab List of parameters for the emission distribution family. \cr
+   \code{rdists} \tab List of functions used for simulating. Mostly for internal use. \cr
 }
 
 
