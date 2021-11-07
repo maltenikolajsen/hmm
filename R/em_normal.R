@@ -25,5 +25,8 @@ em.normal <- function(obs, gamma, delta, mean, sd, ...){
     }
     param_lls[[i]] <- c(mean[i], sd[i])
   }
-  return(em(obs, gamma, delta, lls, param_lls, lls_mle, ...))
+  out <- em(obs, gamma, delta, lls, param_lls, lls_mle, ...)
+  out$parameters <- list(mean=unlist(out$parameters)[c(TRUE, FALSE)], # Weird hack, but it works
+                         sd=unlist(out$parameters)[c(FALSE, TRUE)])
+  return(out)
 }

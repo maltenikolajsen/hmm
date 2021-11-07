@@ -19,5 +19,7 @@ em.exponential <- function(obs, gamma, delta, rate, ...){
     lls_mle[[i]] <- function(x, u) sum(u) / sum(x * u)
   }
   param_lls <- as.list(rate)
-  return(em(obs, gamma, delta, lls, param_lls, lls_mle, ...))
+  out <- em(obs, gamma, delta, lls, param_lls, lls_mle, ...)
+  out$parameters <- as.numeric(out$parameters)
+  return(out)
 }

@@ -19,5 +19,7 @@ em.poisson <- function(obs, gamma, delta, lambda, ...){
     lls_mle[[i]] <- function(x, u) sum(x * u) / sum(u)
   }
   param_lls <- as.list(lambda)
-  return(em(obs, gamma, delta, lls, param_lls, lls_mle, ...))
+  out <- em(obs, gamma, delta, lls, param_lls, lls_mle, ...)
+  out$parameters <- as.numeric(out$parameters)
+  return(out)
 }

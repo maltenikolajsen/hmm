@@ -20,5 +20,8 @@ em.binom <- function(obs, gamma, delta, size, prob, ...){
     lls_mle[[i]] <- function(x, u) sum(x/size * u) / sum(u)
   }
   param_lls <- as.list(prob)
-  return(em(obs, gamma, delta, lls, param_lls, lls_mle, ...))
+  out <- em(obs, gamma, delta, lls, param_lls, lls_mle, ...)
+  out$parameters <- list(size=size,
+                         prob=as.numeric(out$parameters))
+  return(out)
 }
