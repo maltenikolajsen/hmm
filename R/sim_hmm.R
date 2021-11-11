@@ -8,19 +8,21 @@
 #' @param rdists List of functions f_i, where f_i(k) generates k i.i.d. copies of X|C=i
 #' @param include_state Logical. Denotes whether or not the hidden states should be included. If TRUE, they are appended to the end of the HMM.
 #'
+#'
 #' @return Vector of simulated HMM
 #'
 sim_hmm <- function(n, delta, Gamma, rdists, include_state=FALSE){
 
   # Set m for notation
-  m <- length(delta)
+  m <- ncol(Gamma)
 
   # First, generate C_1,...,C_n
   C <- numeric(n)
-  C[1] <- sample(m, prob=delta)
+  C[1] <- sample(1:m, 1, prob=delta)
 
   for(i in 2:n){
-    C[i] <- sample(m, prob=Gamma[C[i-1], ])
+    probs <- Gamma[C[i-1], ]
+    C[i] <- sample(1:m, 1, prob=Gamma[C[i-1], ])
   }
 
   # Next, simulate X_i's
