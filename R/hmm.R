@@ -36,6 +36,8 @@
 #' | `logLik`     | Log-likelihood of parameters given the observed data.             |
 #' | `AIC`        | AIC of the model.                                                 |
 #' | `BIC`        | BIC of the model.                                                 |
+#' | `viterbi`    | Global decoding of the model.                                     |
+#' | `posterior`  | Local decoding of the model.                                      |
 #'
 #' Finally, if estimation is performed, it will also include the following:
 #'
@@ -51,7 +53,25 @@
 #'
 #' @seealso TODO
 #'
-#' @examples TODO
+#' @examples
+#' #Annual counts of earthquakes magnitude 7 or greater, 1900-2006.
+#' #Source:
+#' #Earthquake Data Base System of the U.S. Geological Survey, National
+#' #Earthquake Information Center, Golden CO
+#'
+#' obs <- read.table("http://www.hmms-for-time-series.de/second/data/earthquakes.txt")[,2]
+#'
+#' #Define 2-state HMM with distribution family Poisson.
+#' Gamma <- matrix(rep(.5, 2**2), ncol = 2); delta <- rep(.5, 2); lambda <- c(10, 20)
+#' my_hmm_model <- hmm::hmm(obs, Gamma, delta, dist = "poisson", lambda = lambda)
+#'
+#' > my_hmm_model$Gamma
+#' [,1]       [,2]
+#' [1,] 0.9282596 0.07174039
+#' [2,] 0.1186657 0.88133431
+#'
+#' > my_hmm_model$parameters
+#' [1] 15.41269 26.00080
 hmm <- function(x, Gamma, delta, dist=NULL, ..., estimate=!is.null(x)){
 
   # Initialize output
@@ -112,6 +132,13 @@ hmm <- function(x, Gamma, delta, dist=NULL, ..., estimate=!is.null(x)){
     out$logLik <- logLik
     out$AIC <- AIC
     out$BIC <- BIC
+
+    # Add global decoding.
+    global_decoding <- viterbi(obs = x, delta = delta, Gamma = Gamma, p = p)
+    local_decoding <- l_decoding(obs =  x, delta = delta, Gamma = Gamma, p = p)
+
+    out$viterbi <- global_decoding
+    out$posterior <- local_decoding
   }
 
   # Make list of rdist functions

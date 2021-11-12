@@ -40,6 +40,8 @@ If \code{x} is not \code{NULL}, it will also include:\tabular{ll}{
    \code{logLik} \tab Log-likelihood of parameters given the observed data. \cr
    \code{AIC} \tab AIC of the model. \cr
    \code{BIC} \tab BIC of the model. \cr
+   \code{viterbi} \tab Global decoding of the model. \cr
+   \code{posterior} \tab Local decoding of the model. \cr
 }
 
 
@@ -61,7 +63,24 @@ Finally, one can also disable optimization altogether to simply obtain an 'hmm'-
 TODO
 }
 \examples{
-TODO
+#Annual counts of earthquakes magnitude 7 or greater, 1900-2006.
+#Source:
+#Earthquake Data Base System of the U.S. Geological Survey, National
+#Earthquake Information Center, Golden CO
+
+obs <- read.table("http://www.hmms-for-time-series.de/second/data/earthquakes.txt")[,2]
+
+#Define 2-state HMM with distribution family Poisson.
+Gamma <- matrix(rep(.5, 2**2), ncol = 2); delta <- rep(.5, 2); lambda <- c(10, 20)
+my_hmm_model <- hmm::hmm(obs, Gamma, delta, dist = "poisson", lambda = lambda)
+
+> my_hmm_model$Gamma
+[,1]       [,2]
+[1,] 0.9282596 0.07174039
+[2,] 0.1186657 0.88133431
+
+> my_hmm_model$parameters
+[1] 15.41269 26.00080
 }
 \seealso{
 TODO

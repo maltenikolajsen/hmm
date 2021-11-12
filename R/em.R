@@ -37,7 +37,7 @@ em <- function(obs, gamma, delta, lls, param_lls, lls_mle, epsilon = 10^(-4), ma
   p <- Vectorize(p)
 
   # Iterate E- and M-step a total of max_iter times
-  # TODO: Add convergence break
+
   for(iteration in 1:max_iter){
 
     # Get forward and backward log-probabilities
@@ -51,7 +51,7 @@ em <- function(obs, gamma, delta, lls, param_lls, lls_mle, epsilon = 10^(-4), ma
 
     # Get log-likelihood of entire data-set
     k <- max(log_alpha[,n])
-    log_ll <- k + log(sum(exp(log_alpha[,n] - k))) # Please don't use 'c' as variable
+    log_ll <- k + log(sum(exp(log_alpha[,n] - k)))
 
     # Break if change in log-likelihood is small
     if(iteration > 1 && abs(log_ll - logLs[iteration-1]) < epsilon){
