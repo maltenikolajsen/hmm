@@ -8,7 +8,7 @@
 #' @param p Function returning the evaluated density given the state.
 #'
 #'
-#' @return Vector of hidden states most likely observed using global decoding.
+#' @return List of most likely states and decoding probabilities.
 #'
 viterbi <- function(obs, delta, Gamma, p){
 
@@ -22,11 +22,15 @@ viterbi <- function(obs, delta, Gamma, p){
     xi[,i] <- foo/sum(foo)
   }
 
+
   iv <- numeric(n)
-  iv[n] <- which.max(xi[,n])
+  probs <- matrix(NA, nrow = m, ncol = n)
+  probs[,n] <- xi[,n]
+  iv[n] <- which.max(probs[,n])
   for(i in (n-1):1){
-    iv[i] <- which.max(Gamma[,iv[i+1]]*xi[,i])
+    probs[,i] <- Gamma[,iv[i+1]]*xi[,i]
+    iv[i] <- which.max(probs[,i])
   }
-  iv
+  return(list(states = iv, probs = probs))
 }
 

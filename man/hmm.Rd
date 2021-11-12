@@ -40,8 +40,10 @@ If \code{x} is not \code{NULL}, it will also include:\tabular{ll}{
    \code{logLik} \tab Log-likelihood of parameters given the observed data. \cr
    \code{AIC} \tab AIC of the model. \cr
    \code{BIC} \tab BIC of the model. \cr
-   \code{viterbi} \tab Global decoding of the model. \cr
-   \code{posterior} \tab Local decoding of the model. \cr
+   \code{viterbi_s} \tab States of global decoding of the model. \cr
+   \code{posterior_s} \tab States of local decoding of the model. \cr
+   \code{viterbi_s} \tab Probs. of global decoding of the model. \cr
+   \code{posterior_s} \tab Probs. of local decoding of the model. \cr
 }
 
 

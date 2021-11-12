@@ -16,7 +16,7 @@ viterbi(obs, delta, Gamma, p)
 \item{p}{Function returning the evaluated density given the state.}
 }
 \value{
-Vector of hidden states most likely observed using global decoding.
+List of most likely states and decoding probabilities.
 }
 \description{
 A function for global decoding of HMM's. Not expected to be called by user. Called by the general HMM function.

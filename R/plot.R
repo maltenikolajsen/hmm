@@ -1,0 +1,102 @@
+#' Plot method for class 'hmm'.
+#'
+#'
+#' @param model Class `hmm` model.
+#' @param legend_position Position of legend in plots.
+#' @param xlab Text for x-axis. Default 'Time'.
+#' @param ylab Text for y-axis. Default 'Observed emissions'.
+#' @param ...
+#'
+#' @return Yields four plots stored in a list:
+#'
+#' |              |                                                                   |
+#' |--------------|-------------------------------------------------------------------|
+#' | `p1`         | Plot of observed emissions by most likely hidden state (Global)   |
+#' | `p2`         | Plot of observed emissions by most likely hidden state (Local)    |
+#' | `p3`         | Plot of probs. used in Viterbi algorithm (Global)                 |
+#' | `p4`         | Plot of state probabilities (Local)                               |
+#'
+#' @examples
+#' #Annual counts of earthquakes magnitude 7 or greater, 1900-2006.
+#' #Source:
+#' #Earthquake Data Base System of the U.S. Geological Survey, National
+#' #Earthquake Information Center, Golden CO
+#'
+#' obs <- read.table("http://www.hmms-for-time-series.de/second/data/earthquakes.txt")[,2]
+#'
+#' #Define 2-state HMM with distribution family Poisson.
+#' Gamma <- matrix(rep(.5, 2**2), ncol = 2); delta <- rep(.5, 2); lambda <- c(10, 20)
+#' my_hmm_model <- hmm::hmm(obs, Gamma, delta, dist = "poisson", lambda = lambda)
+#'
+#' #Decoding plots.
+#' plot(my_hmm_model)
+#'
+#' @export
+#'
+plot.hmm <- function(model,
+                     legend_position = "topright",
+                     xlab = "Time",
+                     ylab = "Observed emissions",
+                     ...){
+  m <- model$m; n <- model$n
+
+  #Plot global decoding.
+  if(!is.null(model$viterbi_s)){
+    t <- 1:n
+    p1 <- {plot(t,
+                model$x, main = "Global decoding",
+                xlab = xlab,
+                ylab = ylab)
+      for(i in 1:m){
+        sub_x <- model$x[model$viterbi_s == i]
+        sub_t <- t[model$viterbi_s == i]
+        points(sub_t, sub_x, col = i, pch = 16)
+      }
+      legend(legend_position, legend=1:m, pch=rep(16, m), col = 1:m, title="State")
+    }
+  }
+
+  #Plot local decoding.
+  if(!is.null(model$posterior_s)){
+    t <- 1:n
+    p2 <- {plot(t,
+                model$x, main = "Posterior decoding",
+                xlab = xlab,
+                ylab = ylab)
+      for(i in 1:m){
+        sub_x <- model$x[model$posterior_s == i]
+        sub_t <- t[model$posterior_s == i]
+        points(sub_t, sub_x, col = i, pch = 16)
+      }
+      legend(legend_position, legend=1:m, pch=rep(16, m), col = 1:m, title="State")
+    }
+  }
+
+  #Stacked bar plot for global decoding probabilities.
+  if(!is.null(model$viterbi_p)){
+    tmp <- as.table(model$viterbi_p)
+    colnames(tmp) <- 1:n
+    rownames(tmp) <- 1:m
+    p3 <- {
+      barplot(tmp, col = 1:m, main = "Global probabilities", xlab = xlab, ylab = "Probability of observing emission")
+      legend("topright", legend=1:m, pch=rep(16, m), col = 1:m, title="State")
+    }
+  }
+
+  #Stacked bar plot for local decoding probabilities.
+  if(!is.null(model$posterior_p)){
+    tmp <- as.table(model$posterior_p)
+    colnames(tmp) <- 1:n
+    rownames(tmp) <- 1:m
+    p4 <- {
+      barplot(tmp,
+              col = 1:m,
+              main = "Posterior probabilities",
+              xlab = xlab,
+              ylab = "Probability of observing emission")
+      legend("topright", legend=1:m, pch=rep(16, m), col = 1:m, title="State")
+    }
+  }
+
+  return(list(global_states = p1, local_states = p2, global_prb = p3, local_prb = p4))
+}

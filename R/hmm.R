@@ -36,8 +36,10 @@
 #' | `logLik`     | Log-likelihood of parameters given the observed data.             |
 #' | `AIC`        | AIC of the model.                                                 |
 #' | `BIC`        | BIC of the model.                                                 |
-#' | `viterbi`    | Global decoding of the model.                                     |
-#' | `posterior`  | Local decoding of the model.                                      |
+#' | `viterbi_s`  | States of global decoding of the model.                           |
+#' | `posterior_s`| States of local decoding of the model.                            |
+#' | `viterbi_s`  | Probs. of global decoding of the model.                           |
+#' | `posterior_s`| Probs. of local decoding of the model.                            |
 #'
 #' Finally, if estimation is performed, it will also include the following:
 #'
@@ -137,8 +139,11 @@ hmm <- function(x, Gamma, delta, dist=NULL, ..., estimate=!is.null(x)){
     global_decoding <- viterbi(obs = x, delta = delta, Gamma = Gamma, p = p)
     local_decoding <- l_decoding(obs =  x, delta = delta, Gamma = Gamma, p = p)
 
-    out$viterbi <- global_decoding
-    out$posterior <- local_decoding
+    out$viterbi_s <- global_decoding$states
+    out$posterior_s <- local_decoding$states
+
+    out$viterbi_p <- global_decoding$probs
+    out$posterior_p <- local_decoding$probs
   }
 
   # Make list of rdist functions
