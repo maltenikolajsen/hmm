@@ -11,6 +11,7 @@
 #' @param lls_mle List of functions that generate MLE's
 #' @param epsilon Threshold to stop algorithm when difference in log-likelihood is less than this
 #' @param max_iter Maximum number of iterations before stopping
+#' @param ... Additional arguments, mainly here to avoid "unused argument"-errors.
 #'
 #' @details
 #' Add some details.
@@ -21,7 +22,7 @@
 #' @examples
 #' #TODO
 #'
-em <- function(obs, gamma, delta, lls, param_lls, lls_mle, epsilon = 10^(-4), max_iter = 1000){
+em <- function(obs, gamma, delta, lls, param_lls, lls_mle, epsilon = 1e-5, max_iter = 1000, ...){
 
   # Create vector of log-likelihoods - initialize with Inf for comparison purposes
   logLs <- c()
