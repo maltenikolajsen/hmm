@@ -1,8 +1,8 @@
-#' sim_hmm
+#' Simulating Hidden Markov Models
 #'
 #' @description A function for simulating HMM's. Not expected to be called by user, use instead the 'simulate' method for hmm objects.
 #'
-#' @param n Integer. Length of hmm
+#' @param n Integer. Either number of observations (if `x` is `NULL`) or number of simulations (if observations are available)
 #' @param delta m-dimensional vector. Initial distribution of Markov chain
 #' @param Gamma m x m matrix. Transition probs for Markov chain
 #' @param rdists List of functions f_i, where f_i(k) generates k i.i.d. copies of X|C=i
