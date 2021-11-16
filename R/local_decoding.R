@@ -14,7 +14,12 @@ l_decoding <- function(obs, delta, Gamma, p){
   n <- length(obs); m <- ncol(Gamma)
 
   # Get forward and backward log-probabilities
-  p_mat <- outer(1:m, obs, p)
+  p_mat <- matrix(0, nrow=nrow(Gamma), ncol=length(obs))
+  for(i in 1:nrow(Gamma)){
+    for(j in 1:length(obs)){
+      p_mat[i, j] <- p(i, obs[j])
+    }
+  }
   log_p_mat <- log(p_mat)
   log_Gamma <- log(Gamma)
   log_delta <- log(delta)
