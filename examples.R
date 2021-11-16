@@ -99,10 +99,14 @@ rdist <- list(function(n, param){do.call(rnorm, args=as.list(c(n, param)))},
               function(n, param){rexp(n, param)})
 
 M <- hmm(NULL, Gamma=Gamma, delta=delta, lls=lls, param_lls=param, lls_mle=lls_mle, rdist=rdist)
-Z <- simulate(M, nsim=1, include_state=TRUE)
+Z <- simulate(M, nsim=200, include_state=TRUE)
 X <- Z[1:200]
 G <- Z[201:400]
 plot(X, col=G, pch=19)
 
 # Estimation
-M <- hmm(X, Gamma=Gamma, delta=delta, lls=lls, param_lls=param, lls_mle=lls_mle, rdist=rdist)
+M_est <- hmm(X, Gamma=Gamma, delta=delta, lls=lls, param_lls=param, lls_mle=lls_mle, rdist=rdist)
+abs(M_est$Gamma-Gamma)
+M_est$parameters;param
+mean(M_est$viterbi_s == G)
+mean(M_est$posterior_s == G)
