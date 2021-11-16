@@ -2,6 +2,7 @@
 
 S3method(plot,hmm)
 S3method(simulate,hmm)
+S3method(summary,hmm)
 export(backward_logprobabilities)
 export(backward_probabilities)
 export(em)
