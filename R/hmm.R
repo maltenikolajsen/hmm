@@ -74,11 +74,10 @@
 #'
 #' > my_hmm_model$parameters
 #' [1] 15.41269 26.00080
-hmm <- function(x, Gamma, delta, dist=NULL, ..., estimate=!is.null(x)){
-
+hmm <- function(x, Gamma, delta, dist='custom', ..., estimate=!is.null(x)){
   # Initialize output
   out <- list(m=length(delta),
-              dist=ifelse(is.null(dist), 'Custom', dist))
+              dist=ifelse(dist == 'custom', 'custom', dist))
 
   # Add observed emissions if available
   if(!is.null(x)){
@@ -88,7 +87,7 @@ hmm <- function(x, Gamma, delta, dist=NULL, ..., estimate=!is.null(x)){
 
   # First run EM-algo if desired
   if(estimate){
-    fct <- paste('em', ifelse(is.null(dist), '', '.'), dist, sep='')
+    fct <- ifelse(dist=='custom', 'em', paste('em.', dist, sep=''))
     em_res <- do.call(fct, list(x, Gamma, delta, ...))
 
     # Update according to results
@@ -103,19 +102,23 @@ hmm <- function(x, Gamma, delta, dist=NULL, ..., estimate=!is.null(x)){
 
   # If not estimated, translate options into consistent 'parameters' list
   else{
+    # There is a *very* strange behaviour in R where only the last argument in
+    # '...' is available in the function's environment (even though hasArg
+    # returns TRUE????), so it must be unpacked in a list.
+    params.list <- list(...)
     parameters <- switch (dist,
-      NULL = param_lls,
-      'poisson' = lambda,
-      'normal' = list(mean=mean, sd=sd),
-      'binom' = list(size=size, prob=prob),
-      'exponential' = rate
+      'custom' = params.list$param_lls,
+      'poisson' = params.list$lambda,
+      'normal' = list(mean=params.list$mean, sd=params.list$sd),
+      'binom' = list(size=params.list$size, prob=params.list$prob),
+      'exponential' = params.list$rate
     )
   }
 
   # Calculate log-likelihood, AIC and BIC if x is not NULL
   if(!is.null(x)){
     p <- switch (dist,
-     NULL = function(state, x) {lls[[state]](x, parameters[[state]])},
+     'custom' = function(state, x) {lls[[state]](x, parameters[[state]])},
      'poisson' = function(state, x) {dpois(x, parameters[state])},
      'normal' = function(state, x) {dnorm(x, mean=parameters$mean[state], sd=parameters$sd[state])},
      'binom' = function(state, x) {dbinom(x, size=parameters$size, prob=parameters$prob[state])},
@@ -147,22 +150,21 @@ hmm <- function(x, Gamma, delta, dist=NULL, ..., estimate=!is.null(x)){
   }
 
   # Make list of rdist functions
-  if(!is.null(dist)){
-    rdists = list()
-    # NOTE: R's promise objects are *very* weird here, so some hacky fixes are required - but it works!
-    rdist_state <- function(state){
-      state
-      switch (dist,
-       'poisson' = function(n) {rpois(n, parameters[state])},
-       'normal' = function(n) {rnorm(n, mean=parameters$mean[state], sd=parameters$sd[state])},
-       'binom' = function(n) {rbinom(n, size=parameters$size, prob=parameters$prob[state])},
-       'exponential' = function(n) {rexp(n, parameters[state])}
-      )
-    }
+  rdists = list()
+  # NOTE: R's promise objects are *very* weird here, so some hacky fixes are required - but it works!
+  rdist_state <- function(state){
+    state
+    switch (dist,
+     'custom' = function(n) {rdist[[state]](n, parameters[[state]])},
+     'poisson' = function(n) {rpois(n, parameters[state])},
+     'normal' = function(n) {rnorm(n, mean=parameters$mean[state], sd=parameters$sd[state])},
+     'binom' = function(n) {rbinom(n, size=parameters$size, prob=parameters$prob[state])},
+     'exponential' = function(n) {rexp(n, parameters[state])}
+    )
+  }
 
-    for(j in 1:length(delta)){
-      rdists[[j]] <- rdist_state(j)
-    }
+  for(j in 1:length(delta)){
+    rdists[[j]] <- rdist_state(j)
   }
 
   # Add defaults to output

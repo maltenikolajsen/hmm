@@ -11,8 +11,9 @@ em(
   lls,
   param_lls,
   lls_mle,
-  epsilon = 10^(-4),
-  max_iter = 1000
+  epsilon = 1e-05,
+  max_iter = 1000,
+  ...
 )
 }
 \arguments{
@@ -31,6 +32,8 @@ em(
 \item{epsilon}{Threshold to stop algorithm when difference in log-likelihood is less than this}
 
 \item{max_iter}{Maximum number of iterations before stopping}
+
+\item{...}{Additional arguments, mainly here to avoid "unused argument"-errors.}
 }
 \value{
 A list of log-likelihoods, parameter estimates and number of iterations.

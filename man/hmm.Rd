@@ -4,7 +4,7 @@
 \alias{hmm}
 \title{Fitting Hidden Markov Models}
 \usage{
-hmm(x, Gamma, delta, dist = NULL, ..., estimate = !is.null(x))
+hmm(x, Gamma, delta, dist = "custom", ..., estimate = !is.null(x))
 }
 \arguments{
 \item{x}{Numeric vector of observed emissions. Can be NULL if no estimation is desired.}
