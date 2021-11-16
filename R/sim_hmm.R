@@ -17,22 +17,24 @@ sim_hmm <- function(n, delta, Gamma, rdists, include_state=FALSE){
   m <- ncol(Gamma)
 
   # First, generate C_1,...,C_n
-  Y <- numeric(n)
-  Y[1] <- sample(1:m, 1, prob=delta)
+  C <- numeric(n)
+  C[1] <- sample(1:m, 1, prob=delta)
 
-  for(i in 2:n){
-    probs <- Gamma[Y[i-1], ]
-    Y[i] <- sample(1:m, 1, prob=Gamma[Y[i-1], ])
+  if(n > 1){ # silly check, but causes an error otherwise
+    for(i in 2:n){
+      probs <- Gamma[C[i-1], ]
+      C[i] <- sample(1:m, 1, prob=Gamma[C[i-1], ])
+    }
   }
 
   # Next, simulate X_i's
   X <- numeric(n)
   for(j in 1:m){
-    X[Y == j] <- rdists[[j]](sum(Y == j))
+    X[C == j] <- rdists[[j]](sum(C == j))
   }
 
   if(include_state){
-    return(c(X, Y))
+    return(c(X, C))
   }
 
   return(X)
