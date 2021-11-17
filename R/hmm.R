@@ -77,7 +77,14 @@
 hmm <- function(x, Gamma, delta, dist='custom', ..., estimate=!is.null(x)){
   # Initialize output
   out <- list(m=length(delta),
-              dist=ifelse(dist == 'custom', 'custom', dist))
+              dist=dist)
+
+  # If custom dist is provided, but only one family, make lists of appropriate parameters
+  if(dist == 'custom'){
+    if(typeof(lls) == 'closure'){lls <- rep(list(lls), length(delta))}
+    if(typeof(lls_mle) == 'closure'){lls_mle <- rep(list(lls_mle), length(delta))}
+    if(typeof(rdist) == 'closure'){rdist <- rep(list(rdist), length(delta))}
+  }
 
   # Add observed emissions if available
   if(!is.null(x)){

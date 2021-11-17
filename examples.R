@@ -60,24 +60,15 @@ Gamma <- rbind(c(0.5, 0.25, 0.25),
                c(  0, 0.2 , 0.8))
 delta <- c(1, 0, 0)
 theta <- list(1, 5, 10)
-
-lls <- list(function(x, param){dunif(x, 0, param)},
-            function(x, param){dunif(x, 0, param)},
-            function(x, param){dunif(x, 0, param)})
-
-lls_mle <- list(function(x, u){max(x)},
-                function(x, u){max(x)},
-                function(x, u){max(x)})
-
-rdist <- list(function(n, param){runif(n, 0, param)},
-              function(n, param){runif(n, 0, param)},
-              function(n, param){runif(n, 0, param)})
+lls <- function(x, param){dunif(x, 0, param)}
+lls_mle <- function(x, u){max(x)}
+rdist <- function(n, param){runif(n, 0, param)}
 
 M <- hmm(NULL, Gamma=Gamma, delta=delta, lls=lls, param_lls=theta, lls_mle=lls_mle, rdist=rdist)
 Z <- simulate(M, nsim=200, include_state=TRUE)
 X <- Z[1:200]
 G <- Z[201:400]
-plot(X, col=G, pch=19)
+plot(X, type='h', col=G, lwd=2)
 
 ############################
 # MIXTURE OF DISTRIBUTIONS #

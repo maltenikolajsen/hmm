@@ -2,12 +2,12 @@
 % Please edit documentation in R/sim_hmm.R
 \name{sim_hmm}
 \alias{sim_hmm}
-\title{sim_hmm}
+\title{Simulating Hidden Markov Models}
 \usage{
 sim_hmm(n, delta, Gamma, rdists, include_state = FALSE)
 }
 \arguments{
-\item{n}{Integer. Length of hmm}
+\item{n}{Integer, number of observations to simulate.}
 
 \item{delta}{m-dimensional vector. Initial distribution of Markov chain}
 
