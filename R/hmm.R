@@ -75,6 +75,31 @@
 #' > my_hmm_model$parameters
 #' [1] 15.41269 26.00080
 hmm <- function(x, Gamma, delta, dist='custom', ..., estimate=!is.null(x)){
+  ##################
+  # ERROR HANDLING #
+  ##################
+
+  # Check that Gamma and delta match in length/dimension and that they are valid
+  if(ncol(Gamma) != nrow(Gamma) || !all(rowSums(Gamma) == 1)){
+    stop('Gamma is not a valid transition matrix! (It must be square and have row sums = 1)')
+  }
+
+  if(length(delta) != ncol(Gamma) || sum(delta) != 1){
+    stop('delta is not a valid probability vector! (It must be of length m and sum to 1)')
+  }
+
+  # Check that we don't estimate if x=NULL or length(x)<2
+  if((is.null(x) || length(x) < 2) && estimate){
+    stop('Need at least 2 data points to estimate!')
+  }
+
+  # Check that dist is valid
+  if(!dist %in% c('custom', 'poisson', 'normal', 'binom', 'exponential')){
+    stop('Invalid distribution! Must be one of "custom", "poisson", "normal", "binom" or "exponential"')
+  }
+
+  ##################
+
   # Initialize output
   out <- list(m=length(delta),
               dist=dist)

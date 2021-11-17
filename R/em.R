@@ -23,6 +23,16 @@
 #' #TODO
 #'
 em <- function(obs, gamma, delta, lls, param_lls, lls_mle, epsilon = 1e-5, max_iter = 1000, ...){
+  ##################
+  # ERROR HANDLING #
+  ##################
+
+  # Check that the number of functions matches m
+  if(length(lls) != ncol(gamma) || length(lls_mle) != ncol(gamma) || length(param_lls) != ncol(gamma)){
+    stop('Number of estimation functions and parameters must match to the number of states!')
+  }
+
+  ##################
 
   # Create vector of log-likelihoods - initialize with Inf for comparison purposes
   logLs <- c()
@@ -89,6 +99,11 @@ em <- function(obs, gamma, delta, lls, param_lls, lls_mle, epsilon = 1e-5, max_i
     for(i in 1:m){
       param_lls[[i]] <- lls_mle[[i]](obs, u_hat[i,])
     }
+  }
+
+  # Raise warning if max number of iterations reached
+  if(length(logLs) == max_iter){
+    warning("Maximum number of iterations reached - parameters unlikely to be MLE's")
   }
 
   #AIC, BIC

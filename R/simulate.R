@@ -1,7 +1,7 @@
 #' Simulate method for class 'hmm'.
 #' @export
 simulate.hmm <- function(model, nsim = 1, seed = NULL, ...){
-  set.seed(seed)
+  if(!is.null(seed)){set.seed(seed)}
 
   # Evil hack because '...' is weird
   dots <- list(...)
