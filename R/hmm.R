@@ -210,3 +210,55 @@ hmm <- function(x, Gamma, delta, dist='custom', ..., estimate=!is.null(x)){
   class(out) <- 'hmm'
   return(out)
 }
+
+param_table <- function(x){
+  switch (x$dist,
+    'custom' = {
+      nparm <- max(unlist(lapply(x$parameters, length)))
+      P <- c()
+      for(p in x$parameters){
+        P <- rbind(P, c(p, rep(NA, nparm-length(p))))
+      }
+      colnames(P) <- sapply(1:nparm, function(i) {paste('Param.', i)})
+    },
+    'poisson' = {
+      P <- as.matrix(x$parameters)
+      colnames(P) <- 'lambda'
+    },
+    'normal' = {
+      P <- cbind(x$parameters$mean, x$parameters$sd)
+      colnames(P) <- c('mean', 'sd')
+    },
+    'binom' = {
+      P <- as.matrix(x$parameters$prob)
+      colnames(P) <- 'prob'
+    },
+    'exponential' = {
+      P <- as.matrix(x$parameters)
+      colnames(P) <- 'rate'
+    }
+  )
+  rownames(P) <- 1:x$m
+  print(P, na.print='')
+}
+
+#' Title
+#'
+#' @param x
+#' @param ...
+#'
+#' @export
+print.hmm <- function(x, ...){
+  cat('Hidden Markov Model with', x$m, 'states.\n')
+  cat('Initial distribution of Markov chain is:\n')
+  print(zapsmall(x$delta))
+  cat('\nTransition probability matrix of Markov chain is:\n')
+  colnames(x$Gamma) <- 1:x$m
+  rownames(x$Gamma) <- 1:x$m
+  print(x$Gamma)
+  cat('\nEmission distribution family is', ifelse(x$dist == 'binom',
+                                                   paste('binomial with common size', x$parameters$size, 'and probabilities:\n'),
+                                                   paste(x$dist, 'with parameters:\n')))
+  param_table(x)
+  invisible(x)
+}

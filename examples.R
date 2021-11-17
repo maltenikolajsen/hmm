@@ -9,7 +9,7 @@ Gamma <- rbind(c(0.9, 0.1), c(0.1, 0.9))
 delta <- c(1, 1)/2
 lambda <- c(10, 30)
 
-M <- hmm(quakes, Gamma, delta, dist='poisson', lambda=lambda)
+M <- hmm(quakes, Gamma, delta, dist='poisson', lambda=lambda);M
 
 # m-state
 m <- 3 # just for example
@@ -18,7 +18,7 @@ Gamma <- matrix(0.1, nrow=m, ncol=m) + diag(m) * (1-m * 0.1)
 delta <- rep(1/m, m)
 lambda <- seq(10, 30, length.out=m)
 
-M <- hmm(quakes, Gamma, delta, dist='poisson', lambda=lambda)
+M <- hmm(quakes, Gamma, delta, dist='poisson', lambda=lambda);M
 
 # Binomial fit
 quakes <- read.table("http://www.hmms-for-time-series.de/second/data/earthquakes.txt")$V2
@@ -27,7 +27,7 @@ delta <- c(1, 1)/2
 size <- max(quakes)
 prob <- c(10, 30)/size
 
-M <- hmm(quakes, Gamma, delta, dist='binom', size=size, prob=prob)
+M <- hmm(quakes, Gamma, delta, dist='binom', size=size, prob=prob);M
 
 # Normal fit
 quakes <- read.table("http://www.hmms-for-time-series.de/second/data/earthquakes.txt")$V2
@@ -36,7 +36,7 @@ delta <- c(1, 1)/2
 mean <- c(10, 30)
 sd <- c(1, 1)
 
-M <- hmm(quakes, Gamma, delta, dist='normal', mean=mean, sd=sd)
+M <- hmm(quakes, Gamma, delta, dist='normal', mean=mean, sd=sd);M
 
 
 ######################
@@ -51,7 +51,7 @@ delta <- c(1, 0, 0)
 mean <- c(0, 5, 10)
 sd <- rep(1, 3)
 
-M <- hmm(NULL, Gamma=Gamma, delta=delta, dist='normal', mean=mean, sd=sd)
+M <- hmm(NULL, Gamma=Gamma, delta=delta, dist='normal', mean=mean, sd=sd);M
 X <- simulate(M, nsim=100)
 
 # With a custom distribution
@@ -64,7 +64,7 @@ lls <- function(x, param){dunif(x, 0, param)}
 lls_mle <- function(x, u){max(x)}
 rdist <- function(n, param){runif(n, 0, param)}
 
-M <- hmm(NULL, Gamma=Gamma, delta=delta, lls=lls, param_lls=theta, lls_mle=lls_mle, rdist=rdist)
+M <- hmm(NULL, Gamma=Gamma, delta=delta, lls=lls, param_lls=theta, lls_mle=lls_mle, rdist=rdist);M
 Z <- simulate(M, nsim=200, include_state=TRUE)
 X <- Z[1:200]
 G <- Z[201:400]
@@ -89,14 +89,14 @@ lls_mle <- list(function(x, u){mean_hat <- sum(u*x) / sum(u); c(mean_hat, sqrt(s
 rdist <- list(function(n, param){do.call(rnorm, args=as.list(c(n, param)))},
               function(n, param){rexp(n, param)})
 
-M <- hmm(NULL, Gamma=Gamma, delta=delta, lls=lls, param_lls=param, lls_mle=lls_mle, rdist=rdist)
+M <- hmm(NULL, Gamma=Gamma, delta=delta, lls=lls, param_lls=param, lls_mle=lls_mle, rdist=rdist);M
 Z <- simulate(M, nsim=200, include_state=TRUE)
 X <- Z[1:200]
 G <- Z[201:400]
 plot(X, col=G, pch=19)
 
 # Estimation
-M_est <- hmm(X, Gamma=Gamma, delta=delta, lls=lls, param_lls=param, lls_mle=lls_mle, rdist=rdist)
+M_est <- hmm(X, Gamma=Gamma, delta=delta, lls=lls, param_lls=param, lls_mle=lls_mle, rdist=rdist);M_est
 abs(M_est$Gamma-Gamma)
 M_est$parameters;param
 mean(M_est$viterbi_s == G)
