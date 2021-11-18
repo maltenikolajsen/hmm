@@ -38,5 +38,15 @@ All of this, however, is done during the creation of the \code{hmm} instance, so
 }}
 
 \examples{
-TODO
+# Continuation of Earthquake data example
+quakes <- read.table("http://www.hmms-for-time-series.de/second/data/earthquakes.txt")$V2
+Gamma <- rbind(c(0.9, 0.1), c(0.1, 0.9))
+delta <- c(1, 1)/2
+lambda <- c(10, 30)
+M <- hmm(quakes, Gamma, delta, dist='poisson', lambda=lambda)
+
+AIC(M)
+BIC(M)
+logLik(M)
+
 }

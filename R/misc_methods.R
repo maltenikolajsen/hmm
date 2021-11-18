@@ -38,7 +38,8 @@ param_table <- function(x){
 
 #' Print `hmm`
 #'
-#' @description Print method for class `hmm`
+#' @description Print method for class `hmm`.
+#' Prints a short summary of the involved parameters, namely the initial distribution, transition matrix and emission parameters.
 #'
 #' @param x Object of class `hmm`.
 #' @param ... Further arguments passed to or from other methods.
@@ -68,20 +69,36 @@ print.hmm <- function(x, ...){
 #' This is because we estimate m*(m-1) probabilities in the transition matrix and m-1 probabilities in the initial distribution vector, i.e. (m+1)(m-1) = m^2-1 in all.
 #' All of this, however, is done during the creation of the `hmm` instance, so this function simply returns the values stored in the object.
 #'
-#' @describeIn AIC.hmm Returns the AIC of the HMM.
+#' @export
+#'
 #' @param object Object of class `hmm`.
 #' @param ... Optinally more fitted model objects.
 #' @param k numeric, the penalty per parameter to be used; the default k = 2 is the classical AIC
-#' @examples TODO
+#'
+#' @describeIn AIC.hmm Returns the AIC of the HMM.
+#'
+#' @examples
+#' # Continuation of Earthquake data example
+#' quakes <- read.table("http://www.hmms-for-time-series.de/second/data/earthquakes.txt")$V2
+#' Gamma <- rbind(c(0.9, 0.1), c(0.1, 0.9))
+#' delta <- c(1, 1)/2
+#' lambda <- c(10, 30)
+#' M <- hmm(quakes, Gamma, delta, dist='poisson', lambda=lambda)
+#'
+#' AIC(M)
+#' BIC(M)
+#' logLik(M)
+#'
 AIC.hmm <- function(object, ..., k = 2){
   if(is.null(object$x)){
     stop('Must have at least one observation to produce AIC!')
   }
   n_param <- object$m^2-1 + length(unlist(object$parameters))
-  return(2*object$logLik - k*n_param)
+  return(-2*object$logLik + k*n_param)
 }
 
 #' @describeIn AIC.hmm Returns the BIC of the HMM.
+#' @export
 BIC.hmm <- function(object, ...){
   if(is.null(object$x)){
     stop('Must have at least one observation to produce BIC!')
@@ -90,6 +107,7 @@ BIC.hmm <- function(object, ...){
 }
 
 #' @describeIn AIC.hmm Returns the log-likelihood of the HMM
+#' @export
 logLik.hmm <- function(object, ...){
   if(is.null(object$x)){
     stop('Must have at least one observation to produce log-likelihood!')
@@ -112,7 +130,15 @@ logLik.hmm <- function(object, ...){
 #'
 #' @export
 #'
-#' @examples TODO
+#' @examples
+#' # Continuation of Earthquake data example
+#' quakes <- read.table("http://www.hmms-for-time-series.de/second/data/earthquakes.txt")$V2
+#' Gamma <- rbind(c(0.9, 0.1), c(0.1, 0.9))
+#' delta <- c(1, 1)/2
+#' lambda <- c(10, 30)
+#' M <- hmm(quakes, Gamma, delta, dist='poisson', lambda=lambda)
+#'
+#' fitted.values(M)
 fitted.hmm <- function(x, method='local', ...){
   # Check that data is available
   if(is.null(x$x)){

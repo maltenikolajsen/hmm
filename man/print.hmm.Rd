@@ -12,5 +12,6 @@
 \item{...}{Further arguments passed to or from other methods.}
 }
 \description{
-Print method for class \code{hmm}
+Print method for class \code{hmm}.
+Prints a short summary of the involved parameters, namely the initial distribution, transition matrix and emission parameters.
 }

@@ -40,11 +40,5 @@ A list of log-likelihoods, parameter estimates and number of iterations.
 }
 \description{
 Calculates approximate MLE's of all involved parameters, i.e. initial distribution probabilities, transition probabilities and whichever parameters are required for the marginal distribution of the emissions.
-}
-\details{
-Add some details.
-}
-\examples{
-#TODO
-
+Not expected to be called by the user directly, instead being called during the initialization of an \code{hmm} object.
 }

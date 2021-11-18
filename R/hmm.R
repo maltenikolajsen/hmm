@@ -15,7 +15,7 @@
 #' @param estimate Logical variable whether or not parameters of model (Gamma, delta and emission parameters) should be estimated by EM-algorithm. Defaults to TRUE when data is available.
 #'
 #' @return An object of class 'hmm'.
-#' The 'hmm'-class is equipped with the following methods: `summary`, `plot`, `fitted.values`, `residuals`, `logLik` and `simulate`.
+#' The 'hmm'-class is equipped with a variety of default methods, see 'See also' section for details.
 #' An object of class 'hmm' is a list containing at least the following components:
 #'
 #' |              |                                                                   |
@@ -53,7 +53,8 @@
 #'
 #' @export
 #'
-#' @seealso TODO
+#' @seealso The `hmm` object has methods for the following generic functions:
+#' [AIC][AIC.hmm], [BIC][BIC.hmm], [fitted.values][fitted.hmm], [logLik][logLik.hmm], [plot][plot.hmm], [print][print.hmm], [residuals][residuals.hmm], [simulate][simulate.hmm] and [summary][summary.hmm]
 #'
 #' @examples
 #' #Annual counts of earthquakes magnitude 7 or greater, 1900-2006.

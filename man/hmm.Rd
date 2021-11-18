@@ -21,7 +21,7 @@ hmm(x, Gamma, delta, dist = "custom", ..., estimate = !is.null(x))
 }
 \value{
 An object of class 'hmm'.
-The 'hmm'-class is equipped with the following methods: \code{summary}, \code{plot}, \code{fitted.values}, \code{residuals}, \code{logLik} and \code{simulate}.
+The 'hmm'-class is equipped with a variety of default methods, see 'See also' section for details.
 An object of class 'hmm' is a list containing at least the following components:\tabular{ll}{
     \tab  \cr
    \code{m} \tab Number of hidden states. \cr
@@ -85,5 +85,6 @@ my_hmm_model <- hmm::hmm(obs, Gamma, delta, dist = "poisson", lambda = lambda)
 [1] 15.41269 26.00080
 }
 \seealso{
-TODO
+The \code{hmm} object has methods for the following generic functions:
+\link[=AIC.hmm]{AIC}, \link[=BIC.hmm]{BIC}, \link[=fitted.hmm]{fitted.values}, \link[=logLik.hmm]{logLik}, \link[=plot.hmm]{plot}, \link[=print.hmm]{print}, \link[=residuals.hmm]{residuals}, \link[=simulate.hmm]{simulate} and \link[=summary.hmm]{summary}
 }

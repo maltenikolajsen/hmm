@@ -24,5 +24,12 @@ If the distribution family is one of the included standard families (Poisson, no
 Otherwise, the empirical mean will be used as the expected value.
 }
 \examples{
-TODO
+# Continuation of Earthquake data example
+quakes <- read.table("http://www.hmms-for-time-series.de/second/data/earthquakes.txt")$V2
+Gamma <- rbind(c(0.9, 0.1), c(0.1, 0.9))
+delta <- c(1, 1)/2
+lambda <- c(10, 30)
+M <- hmm(quakes, Gamma, delta, dist='poisson', lambda=lambda)
+
+fitted.values(M)
 }
