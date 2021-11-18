@@ -1,13 +1,20 @@
 Package: hmm
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.0.9000
-Authors@R: 
-    person(given = "First",
-           family = "Last",
-           role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+Title: Hidden Markov Models
+Version: 0.1.0
+Authors@R: c(
+    person(given = "Asbjørn",
+           family = "Holk",
+           email = "asbjornholk@gmail.com",
+           role = c('aut', 'cre')),
+    person(given = "Malte",
+           family = "Nikolajsen",
+           role = "aut"),
+    person(given = "Leander",
+           family = "Tilsted",
+           role = "aut"))
+Description: Implements a central "hmm" object, which fits (or simply defines) a hidden Markov model in `R`.
+  If desired, the call to "hmm" will automatically find maximum likelihood estimates of all included parameters using the EM-algorithm.
+  Finally, the "hmm"-class has methods for many of the most common generic functions in `R`, making use very easy.
 License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
     license
 Encoding: UTF-8
