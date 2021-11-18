@@ -2,6 +2,7 @@
 #'
 #' @description
 #' Calculates approximate MLE's of all involved parameters, i.e. initial distribution probabilities, transition probabilities and whichever parameters are required for the marginal distribution of the emissions.
+#' Not expected to be called by the user directly, instead being called during the initialization of an `hmm` object.
 #'
 #' @param obs The observed data
 #' @param gamma Initial value of transition matrix
@@ -13,15 +14,7 @@
 #' @param max_iter Maximum number of iterations before stopping
 #' @param ... Additional arguments, mainly here to avoid "unused argument"-errors.
 #'
-#' @details
-#' Add some details.
-#'
 #' @return A list of log-likelihoods, parameter estimates and number of iterations.
-#' @export
-#'
-#' @examples
-#' #TODO
-#'
 em <- function(obs, gamma, delta, lls, param_lls, lls_mle, epsilon = 1e-5, max_iter = 1000, ...){
   ##################
   # ERROR HANDLING #
@@ -106,21 +99,9 @@ em <- function(obs, gamma, delta, lls, param_lls, lls_mle, epsilon = 1e-5, max_i
     warning("Maximum number of iterations reached - parameters unlikely to be MLE's")
   }
 
-  #AIC, BIC
-  p <- m^2 - 1 # We also estimate the transition probs (m(m-1)) and init. dist. (m-1) so (m+1)(m-1)=m^2-1
-  for(param in param_lls){
-    p <- p + length(param)
-  }
-  aic <- -2 * logLs[iteration-1] + 2 * p
-  bic <- -2 * logLs[iteration-1] + p * log(n)
-
-
   return(list(log_likelihoods = logLs,
               n_iter = length(logLs),
               delta = delta,
               Gamma = gamma,
-              parameters = param_lls,
-              log_likelihood = log_ll,
-              aic = aic,
-              bic = bic))
+              parameters = param_lls))
 }
