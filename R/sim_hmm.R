@@ -1,5 +1,7 @@
 #' Simulating Hidden Markov Models
 #'
+#' @keywords internal
+#'
 #' @description A function for simulating HMM's. Not expected to be called by user, use instead the 'simulate' method for hmm objects.
 #'
 #' @param n Integer, number of observations to simulate.
@@ -10,7 +12,6 @@
 #'
 #'
 #' @return Vector of simulated HMM
-#'
 sim_hmm <- function(n, delta, Gamma, rdists, include_state=FALSE){
 
   # Set m for notation

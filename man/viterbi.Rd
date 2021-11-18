@@ -2,7 +2,7 @@
 % Please edit documentation in R/viterbi.R
 \name{viterbi}
 \alias{viterbi}
-\title{viterbi}
+\title{Global state prediction using Viterbi's algorithm}
 \usage{
 viterbi(obs, delta, Gamma, p)
 }
@@ -21,3 +21,4 @@ List of most likely states and decoding probabilities.
 \description{
 A function for global decoding of HMM's. Not expected to be called by user. Called by the general HMM function.
 }
+\keyword{internal}

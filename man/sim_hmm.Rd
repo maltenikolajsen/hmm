@@ -23,3 +23,4 @@ Vector of simulated HMM
 \description{
 A function for simulating HMM's. Not expected to be called by user, use instead the 'simulate' method for hmm objects.
 }
+\keyword{internal}

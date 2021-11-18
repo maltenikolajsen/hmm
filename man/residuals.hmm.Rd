@@ -21,3 +21,13 @@ Returns residuals of the observed emissions.
 If the distribution family is one of the included standard families (Poisson, normal, binomial or exponential), the expected value will be the plug-in estimate using the fitted parameters of each state.
 Otherwise, the empirical mean will be used as the expected value.
 }
+\examples{
+## Continuation of Earthquake example
+\dontshow{example(hmm)}
+residuals(hmm.EQ)
+
+## Continuation of simulated mixture data
+\dontshow{example(simulate.hmm)}
+hmm.mixture_X <- hmm(X.mixture, Gamma=Gamma, delta=delta, lls=lls, param_lls=param, lls_mle=lls_mle, rdist=rdist, estimate=FALSE)
+residuals(hmm.mixture_X)
+}

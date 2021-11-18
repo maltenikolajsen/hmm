@@ -1,16 +1,4 @@
-#' em.normal
-#'
-#' @description A wrapper for the em function used for normal data. Should generally not be called by the user.
-#'
-#' @param obs
-#' @param gamma
-#' @param delta
-#' @param mean
-#' @param sd
-#'
-#' @return
-#'
-#' @examples
+#' @describeIn em EM-algorithm for normal emissions
 em.normal <- function(obs, gamma, delta, mean, sd, ...){
   m <- length(delta)
   lls <- list()

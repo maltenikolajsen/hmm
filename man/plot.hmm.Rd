@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot.R
 \name{plot.hmm}
 \alias{plot.hmm}
-\title{Plot method for class 'hmm'.}
+\title{Plotting Hidden Markov Models.}
 \usage{
 \method{plot}{hmm}(
   model,
@@ -33,21 +33,11 @@ Yields four plots stored in a list:\tabular{ll}{
 }
 }
 \description{
-Plot method for class 'hmm'.
+Plotting Hidden Markov Models.
 }
 \examples{
-#Annual counts of earthquakes magnitude 7 or greater, 1900-2006.
-#Source:
-#Earthquake Data Base System of the U.S. Geological Survey, National
-#Earthquake Information Center, Golden CO
-
-obs <- read.table("http://www.hmms-for-time-series.de/second/data/earthquakes.txt")[,2]
-
-#Define 2-state HMM with distribution family Poisson.
-Gamma <- matrix(rep(.5, 2**2), ncol = 2); delta <- rep(.5, 2); lambda <- c(10, 20)
-my_hmm_model <- hmm::hmm(obs, Gamma, delta, dist = "poisson", lambda = lambda)
-
-#Decoding plots.
-plot(my_hmm_model)
+## Continuation of Earthquake example
+\dontshow{example(hmm)}
+plot(hmm.EQ)
 
 }

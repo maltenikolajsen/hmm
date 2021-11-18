@@ -21,5 +21,12 @@ The function prints a summary of the parameters of the given model in a more hum
 If fitted, it also provides model fitness statistics in the form of log-likelihood, AIC and BIC.
 }
 \examples{
-TBD
+## Continuation of Earthquake example
+\dontshow{example(hmm)}
+summary(hmm.EQ)
+
+## Continuation of simulated mixture data
+\dontshow{example(simulate.hmm)}
+hmm.mixture_X <- hmm(X.mixture, Gamma=Gamma, delta=delta, lls=lls, param_lls=param, lls_mle=lls_mle, rdist=rdist, estimate=FALSE)
+summary(hmm.mixture_X)
 }

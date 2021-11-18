@@ -1,5 +1,7 @@
 #' Parameter table
 #'
+#' @keywords internal
+#'
 #' @description Helper function for other methods that prints parameters of `hmm` class in a human-readable format.
 #'
 #' @param x Object of type `hmm`.
@@ -36,7 +38,9 @@ param_table <- function(x){
   print(P, na.print='')
 }
 
-#' Print `hmm`
+#' Printing hidden Markov models
+#'
+#' @keywords internal
 #'
 #' @description Print method for class `hmm`.
 #' Prints a short summary of the involved parameters, namely the initial distribution, transition matrix and emission parameters.
@@ -78,16 +82,18 @@ print.hmm <- function(x, ...){
 #' @describeIn AIC.hmm Returns the AIC of the HMM.
 #'
 #' @examples
-#' # Continuation of Earthquake data example
-#' quakes <- read.table("http://www.hmms-for-time-series.de/second/data/earthquakes.txt")$V2
-#' Gamma <- rbind(c(0.9, 0.1), c(0.1, 0.9))
-#' delta <- c(1, 1)/2
-#' lambda <- c(10, 30)
-#' M <- hmm(quakes, Gamma, delta, dist='poisson', lambda=lambda)
+#' # Continuation of Earthquake example
+#' \dontshow{example(hmm)}
 #'
-#' AIC(M)
-#' BIC(M)
-#' logLik(M)
+#' # Fitted model
+#' AIC(hmm.EQ)
+#' BIC(hmm.EQ)
+#' logLik(hmm.EQ)
+#'
+#' # Starting parameters
+#' AIC(hmm.EQ_no_opt)
+#' BIC(hmm.EQ_no_opt)
+#' logLik(hmm.EQ_no_opt)
 #'
 AIC.hmm <- function(object, ..., k = 2){
   if(is.null(object$x)){
@@ -131,14 +137,9 @@ logLik.hmm <- function(object, ...){
 #' @export
 #'
 #' @examples
-#' # Continuation of Earthquake data example
-#' quakes <- read.table("http://www.hmms-for-time-series.de/second/data/earthquakes.txt")$V2
-#' Gamma <- rbind(c(0.9, 0.1), c(0.1, 0.9))
-#' delta <- c(1, 1)/2
-#' lambda <- c(10, 30)
-#' M <- hmm(quakes, Gamma, delta, dist='poisson', lambda=lambda)
-#'
-#' fitted.values(M)
+#' # Continuation of Earthquake example
+#' \dontshow{example(hmm)}
+#' fitted.values(hmm.EQ)
 fitted.hmm <- function(x, method='local', ...){
   # Check that data is available
   if(is.null(x$x)){
@@ -186,6 +187,14 @@ fitted.hmm <- function(x, method='local', ...){
 #' @export
 #'
 #' @examples
+#' ## Continuation of Earthquake example
+#' \dontshow{example(hmm)}
+#' residuals(hmm.EQ)
+#'
+#' ## Continuation of simulated mixture data
+#' \dontshow{example(simulate.hmm)}
+#' hmm.mixture_X <- hmm(X.mixture, Gamma=Gamma, delta=delta, lls=lls, param_lls=param, lls_mle=lls_mle, rdist=rdist, estimate=FALSE)
+#' residuals(hmm.mixture_X)
 residuals.hmm <- function(object, ...){
   return(object$x - fitted(object)$emission)
 }
@@ -206,7 +215,15 @@ residuals.hmm <- function(object, ...){
 #'
 #' @export
 #'
-#' @examples TBD
+#' @examples
+#' ## Continuation of Earthquake example
+#' \dontshow{example(hmm)}
+#' summary(hmm.EQ)
+#'
+#' ## Continuation of simulated mixture data
+#' \dontshow{example(simulate.hmm)}
+#' hmm.mixture_X <- hmm(X.mixture, Gamma=Gamma, delta=delta, lls=lls, param_lls=param, lls_mle=lls_mle, rdist=rdist, estimate=FALSE)
+#' summary(hmm.mixture_X)
 summary.hmm <- function(object, ...){
   if(is.null(object$x)){
     out <- list(dist=object$dist,

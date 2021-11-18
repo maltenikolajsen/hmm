@@ -1,15 +1,4 @@
-#' em.poisson
-#'
-#' @description A wrapper for the em function used for Poisson data. Should generally not be called by the user.
-#'
-#' @param obs
-#' @param gamma
-#' @param delta
-#' @param lambda
-#'
-#' @return
-#'
-#' @examples
+#' @describeIn em EM-algorithm for Poisson emissions
 em.poisson <- function(obs, gamma, delta, lambda, ...){
   m <- length(delta)
   lls <- list()

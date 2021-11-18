@@ -2,10 +2,47 @@
 % Please edit documentation in R/simulate.R
 \name{simulate.hmm}
 \alias{simulate.hmm}
-\title{Simulate method for class 'hmm'.}
+\title{Simulating Hidden Markov objects}
 \usage{
-\method{simulate}{hmm}(model, nsim = 1, seed = NULL, ...)
+\method{simulate}{hmm}(object, nsim = 1, seed = NULL, include_state = FALSE, ...)
+}
+\arguments{
+\item{object}{Object of class \code{hmm}.}
+
+\item{nsim}{Number of simulations.}
+
+\item{seed}{Seed to be used for random generation.}
+
+\item{include_state}{Logical, whether or not the hidden state should also be returned.}
+
+\item{...}{Additional arguments.}
+}
+\value{
+If observations are available in the \code{hmm} object, will return a matrix with \code{nsim} rows, each of which being a simulation of equal length as the observed data.
+Otherwise, will return a vector of length \code{nsim} of simulations from the model.
+In either case, if \code{include_state} is \code{TRUE}, each simulation will be appended with a vector of equal length indicating the hidden state.
 }
 \description{
-Simulate method for class 'hmm'.
+Simulating Hidden Markov objects
+}
+\examples{
+# Continuing examples from hmm page
+\dontshow{example(hmm)}
+# Normal distributions
+X.normal <- simulate(hmm.normal, nsim=100)
+summary(X.normal)
+plot(X.normal)
+hist(X.normal)
+
+# Custom (uniform) distributions
+Z.unif <- simulate(hmm.unif, nsim=200, include_state=TRUE)
+X.unif <- Z.unif[1:100]
+G.unif <- Z.unif[101:200]
+plot(X.unif, type='h', col=G.unif, lwd=2)
+
+# Custom (mixed) distributions
+Z.mixture <- simulate(hmm.mixture, nsim=200, include_state=TRUE)
+X.mixture <- Z.mixture[1:200]
+G.mixture <- Z.mixture[201:400]
+plot(X.mixture, type='h', col=G.mixture, lwd=2)
 }

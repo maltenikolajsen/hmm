@@ -1,15 +1,4 @@
-#' em.exponential
-#'
-#' @description A wrapper for the em function used for exponential data. Should generally not be called by the user.
-#'
-#' @param obs
-#' @param gamma
-#' @param delta
-#' @param rate
-#'
-#' @return
-#'
-#' @examples
+#' @describeIn em EM-algorithm for exponential emissions
 em.exponential <- function(obs, gamma, delta, rate, ...){
   m <- length(delta)
   lls <- list()

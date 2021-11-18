@@ -2,7 +2,7 @@
 % Please edit documentation in R/misc_methods.R
 \name{print.hmm}
 \alias{print.hmm}
-\title{Print \code{hmm}}
+\title{Printing hidden Markov models}
 \usage{
 \method{print}{hmm}(x, ...)
 }
@@ -15,3 +15,4 @@
 Print method for class \code{hmm}.
 Prints a short summary of the involved parameters, namely the initial distribution, transition matrix and emission parameters.
 }
+\keyword{internal}

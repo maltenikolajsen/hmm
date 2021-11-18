@@ -1,4 +1,6 @@
-#' l_decoding
+#' Local state decoding
+#'
+#' @keywords internal
 #'
 #' @description A function for local decoding of HMM's. Not expected to be called by user. Called by the general HMM function.
 #'

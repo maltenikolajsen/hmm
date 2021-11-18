@@ -1,4 +1,6 @@
-#' em
+#' Parameter estimation by EM algorithm
+#'
+#' @keywords internal
 #'
 #' @description
 #' Calculates approximate MLE's of all involved parameters, i.e. initial distribution probabilities, transition probabilities and whichever parameters are required for the marginal distribution of the emissions.

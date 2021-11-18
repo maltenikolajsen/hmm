@@ -12,3 +12,4 @@ param_table(x)
 \description{
 Helper function for other methods that prints parameters of \code{hmm} class in a human-readable format.
 }
+\keyword{internal}

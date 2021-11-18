@@ -1,16 +1,4 @@
-#' em.binom
-#'
-#' @description A wrapper for the em function used for binomial data. Should generally not be called by the user.
-#'
-#' @param obs
-#' @param gamma
-#' @param delta
-#' @param size
-#' @param prob
-#'
-#' @return
-#'
-#' @examples
+#' @describeIn em EM-algorithm for binomial emissions
 em.binom <- function(obs, gamma, delta, size, prob, ...){
   m <- length(delta)
   lls <- list()

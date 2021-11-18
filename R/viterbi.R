@@ -1,4 +1,6 @@
-#' viterbi
+#' Global state prediction using Viterbi's algorithm
+#'
+#' @keywords internal
 #'
 #' @description A function for global decoding of HMM's. Not expected to be called by user. Called by the general HMM function.
 #'

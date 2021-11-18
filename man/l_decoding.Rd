@@ -2,7 +2,7 @@
 % Please edit documentation in R/local_decoding.R
 \name{l_decoding}
 \alias{l_decoding}
-\title{l_decoding}
+\title{Local state decoding}
 \usage{
 l_decoding(obs, delta, Gamma, p)
 }
@@ -21,3 +21,4 @@ List of most likely states and decoding probabilities.
 \description{
 A function for local decoding of HMM's. Not expected to be called by user. Called by the general HMM function.
 }
+\keyword{internal}
