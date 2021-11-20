@@ -35,11 +35,6 @@
 simulate.hmm <- function(object, nsim = 1, seed = NULL, include_state = FALSE, ...){
   if(!is.null(seed)){set.seed(seed)}
 
-  # Evil hack because '...' is weird
-  dots <- list(...)
-  include_state <- dots$include_state
-  if(is.null(include_state)){include_state <- FALSE}
-
   # Seperate into cases where observations are available and not
   if(is.null(object$x)){
     return(sim_hmm(nsim, object$delta, object$Gamma, object$rdists, include_state))

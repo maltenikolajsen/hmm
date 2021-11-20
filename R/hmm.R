@@ -162,7 +162,7 @@ hmm <- function(x, Gamma, delta, dist='custom', ..., estimate=!is.null(x)){
   ##################
 
   # Check that Gamma and delta match in length/dimension and that they are valid
-  if(ncol(Gamma) != nrow(Gamma) || !all(rowSums(Gamma) == 1)){
+  if(ncol(Gamma) != nrow(Gamma) || !all((rowSums(Gamma) - 1) < 1e-5)){
     stop('Gamma is not a valid transition matrix! (It must be square and have row sums = 1)')
   }
 

@@ -27,6 +27,7 @@ plot.hmm <- function(model,
                      legend_position = "topright",
                      xlab = "Time",
                      ylab = "Observed emissions",
+                     cols = 1:model$m,
                      ...){
   m <- model$m; n <- model$n
 
@@ -36,13 +37,19 @@ plot.hmm <- function(model,
     p1 <- {plot(t,
                 model$x, main = "Global decoding",
                 xlab = xlab,
-                ylab = ylab)
+                ylab = ylab,
+                ...)
       for(i in 1:m){
         sub_x <- model$x[model$viterbi_s == i]
         sub_t <- t[model$viterbi_s == i]
-        points(sub_t, sub_x, col = i, pch = 16)
+        if(hasArg('type') && list(...)$type %in% c('h', 'l')){
+          lines(sub_t, sub_x, col = cols[i], ...)
+        }
+        else{
+          points(sub_t, sub_x, col = cols[i], pch = 16)
+        }
       }
-      legend(legend_position, legend=1:m, pch=rep(16, m), col = 1:m, title="State")
+      legend(legend_position, legend=1:m, pch=rep(16, m), col = cols, title="State")
     }
   }
 
@@ -52,13 +59,19 @@ plot.hmm <- function(model,
     p2 <- {plot(t,
                 model$x, main = "Posterior decoding",
                 xlab = xlab,
-                ylab = ylab)
+                ylab = ylab,
+                ...)
       for(i in 1:m){
         sub_x <- model$x[model$posterior_s == i]
         sub_t <- t[model$posterior_s == i]
-        points(sub_t, sub_x, col = i, pch = 16)
+        if(hasArg('type') && list(...)$type %in% c('h', 'l')){
+          lines(sub_t, sub_x, col = cols[i], ...)
+        }
+        else{
+          points(sub_t, sub_x, col = cols[i], pch = 16)
+        }
       }
-      legend(legend_position, legend=1:m, pch=rep(16, m), col = 1:m, title="State")
+      legend(legend_position, legend=1:m, pch=rep(16, m), col = cols, title="State")
     }
   }
 
@@ -68,8 +81,8 @@ plot.hmm <- function(model,
     colnames(tmp) <- 1:n
     rownames(tmp) <- 1:m
     p3 <- {
-      barplot(tmp, col = 1:m, main = "Global probabilities", xlab = xlab, ylab = "Probability of observing emission")
-      legend("topright", legend=1:m, pch=rep(16, m), col = 1:m, title="State")
+      barplot(tmp, col = cols, main = "Global probabilities", xlab = xlab, ylab = "Probability of observing emission")
+      legend("topright", legend=1:m, pch=rep(16, m), col = cols, title="State")
     }
   }
 
@@ -80,13 +93,13 @@ plot.hmm <- function(model,
     rownames(tmp) <- 1:m
     p4 <- {
       barplot(tmp,
-              col = 1:m,
+              col = cols,
               main = "Posterior probabilities",
               xlab = xlab,
               ylab = "Probability of observing emission")
-      legend("topright", legend=1:m, pch=rep(16, m), col = 1:m, title="State")
+      legend("topright", legend=1:m, pch=rep(16, m), col = cols, title="State")
     }
   }
 
-  return(list(global_states = p1, local_states = p2, global_prb = p3, local_prb = p4))
+  invisible()
 }

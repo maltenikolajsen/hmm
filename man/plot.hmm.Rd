@@ -9,6 +9,7 @@
   legend_position = "topright",
   xlab = "Time",
   ylab = "Observed emissions",
+  cols = 1:model$m,
   ...
 )
 }

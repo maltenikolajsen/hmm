@@ -260,6 +260,7 @@ print.summary.hmm <- function(x, ...){
   # If no data is available, just print the same as normal
   if(is.null(x$x)){
     print.hmm(x, ...)
+    return(invisible(x))
   }
 
   # Otherwise, include some other shit
