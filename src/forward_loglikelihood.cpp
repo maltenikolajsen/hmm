@@ -18,6 +18,9 @@ NumericMatrix forward_ll_cpp(NumericMatrix Gamma, NumericMatrix p, NumericVector
   // Recursively fill out the rest of log-alpha
   for(int i=1; i<n; i++){
     double c = max(logalpha(_, i-1));
+    if(c == R_NegInf){
+      c = 0;
+    }
     for(int j=0; j<m; j++){
       double logalpha_ji = 0;
       for(int k=0; k<m; k++){

@@ -18,6 +18,9 @@ NumericMatrix backward_ll_cpp(NumericMatrix Gamma, NumericMatrix p) {
   // Recursively fill out the rest of beta
   for(int i=n-1; i>0; i--){
     double c = max(logbeta(_, i));
+    if(c == R_NegInf){
+      c = 0;
+    }
     for(int j=0; j<m; j++){
       double beta_ji = 0;
       for(int k=0; k<m; k++){

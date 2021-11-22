@@ -17,3 +17,7 @@ forward_prob_cpp <- function(Gamma, p, delta) {
     .Call(`_hmm_forward_prob_cpp`, Gamma, p, delta)
 }
 
+update_log_gamma_cpp <- function(log_alpha, log_beta, log_gamma, log_p_mat, log_ll) {
+    .Call(`_hmm_update_log_gamma_cpp`, log_alpha, log_beta, log_gamma, log_p_mat, log_ll)
+}
+

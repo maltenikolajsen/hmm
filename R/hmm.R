@@ -252,15 +252,17 @@ hmm <- function(x, Gamma, delta, dist='custom', ..., estimate=!is.null(x)){
     out$AIC <- AIC
     out$BIC <- BIC
 
-    # Add global decoding.
-    global_decoding <- viterbi(obs = x, delta = delta, Gamma = Gamma, p = p)
-    local_decoding <- l_decoding(obs =  x, delta = delta, Gamma = Gamma, p = p)
+    # Add global decoding if possible.
+    if(!is.nan(logLik)){
+      global_decoding <- viterbi(obs = x, delta = delta, Gamma = Gamma, p = p)
+      local_decoding <- l_decoding(obs =  x, delta = delta, Gamma = Gamma, p = p)
 
-    out$viterbi_s <- global_decoding$states
-    out$posterior_s <- local_decoding$states
+      out$viterbi_s <- global_decoding$states
+      out$posterior_s <- local_decoding$states
 
-    out$viterbi_p <- global_decoding$probs
-    out$posterior_p <- local_decoding$probs
+      out$viterbi_p <- global_decoding$probs
+      out$posterior_p <- local_decoding$probs
+    }
   }
 
   # Make list of rdist functions
