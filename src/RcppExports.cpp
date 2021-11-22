@@ -56,7 +56,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // update_log_gamma_cpp
-NumericMatrix update_log_gamma_cpp(NumericMatrix log_alpha, NumericMatrix log_beta, NumericMatrix log_gamma, NumericMatrix log_p_mat, float log_ll);
+NumericMatrix update_log_gamma_cpp(NumericMatrix log_alpha, NumericMatrix log_beta, NumericMatrix log_gamma, NumericMatrix log_p_mat, double log_ll);
 RcppExport SEXP _hmm_update_log_gamma_cpp(SEXP log_alphaSEXP, SEXP log_betaSEXP, SEXP log_gammaSEXP, SEXP log_p_matSEXP, SEXP log_llSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -65,7 +65,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericMatrix >::type log_beta(log_betaSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type log_gamma(log_gammaSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type log_p_mat(log_p_matSEXP);
-    Rcpp::traits::input_parameter< float >::type log_ll(log_llSEXP);
+    Rcpp::traits::input_parameter< double >::type log_ll(log_llSEXP);
     rcpp_result_gen = Rcpp::wrap(update_log_gamma_cpp(log_alpha, log_beta, log_gamma, log_p_mat, log_ll));
     return rcpp_result_gen;
 END_RCPP

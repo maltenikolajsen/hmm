@@ -2,7 +2,7 @@
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-NumericMatrix update_log_gamma_cpp(NumericMatrix log_alpha, NumericMatrix log_beta, NumericMatrix log_gamma, NumericMatrix log_p_mat, float log_ll) {
+NumericMatrix update_log_gamma_cpp(NumericMatrix log_alpha, NumericMatrix log_beta, NumericMatrix log_gamma, NumericMatrix log_p_mat, double log_ll) {
   // Initialize n and m for notation
   int n = log_alpha.ncol();
   int m = log_alpha.nrow();
@@ -10,7 +10,7 @@ NumericMatrix update_log_gamma_cpp(NumericMatrix log_alpha, NumericMatrix log_be
   // First calculate log(n_{i, j}) by log-sum-exp trick
   NumericMatrix log_n(m, m);
   for(int i=0; i<m; i++){
-    for(int j=0; i<m; j++){
+    for(int j=0; j<m; j++){
       NumericVector log_v_ij(n);
       for(int k=1; k<n; k++){
         log_v_ij[k] = log_alpha(i, k-1) + log_gamma(i, j) + log_p_mat(j, k) + log_beta(j, k) - log_ll;
