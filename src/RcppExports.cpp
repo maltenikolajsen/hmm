@@ -5,11 +5,6 @@
 
 using namespace Rcpp;
 
-#ifdef RCPP_USE_GLOBAL_ROSTREAM
-Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
-Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
-#endif
-
 // backward_ll_cpp
 NumericMatrix backward_ll_cpp(NumericMatrix Gamma, NumericMatrix p);
 RcppExport SEXP _hmm_backward_ll_cpp(SEXP GammaSEXP, SEXP pSEXP) {
@@ -60,12 +55,28 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// update_log_gamma_cpp
+NumericMatrix update_log_gamma_cpp(NumericMatrix log_alpha, NumericMatrix log_beta, NumericMatrix log_gamma, NumericMatrix log_p_mat, float log_ll);
+RcppExport SEXP _hmm_update_log_gamma_cpp(SEXP log_alphaSEXP, SEXP log_betaSEXP, SEXP log_gammaSEXP, SEXP log_p_matSEXP, SEXP log_llSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type log_alpha(log_alphaSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type log_beta(log_betaSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type log_gamma(log_gammaSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type log_p_mat(log_p_matSEXP);
+    Rcpp::traits::input_parameter< float >::type log_ll(log_llSEXP);
+    rcpp_result_gen = Rcpp::wrap(update_log_gamma_cpp(log_alpha, log_beta, log_gamma, log_p_mat, log_ll));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_hmm_backward_ll_cpp", (DL_FUNC) &_hmm_backward_ll_cpp, 2},
     {"_hmm_backward_prob_cpp", (DL_FUNC) &_hmm_backward_prob_cpp, 2},
     {"_hmm_forward_ll_cpp", (DL_FUNC) &_hmm_forward_ll_cpp, 3},
     {"_hmm_forward_prob_cpp", (DL_FUNC) &_hmm_forward_prob_cpp, 3},
+    {"_hmm_update_log_gamma_cpp", (DL_FUNC) &_hmm_update_log_gamma_cpp, 5},
     {NULL, NULL, 0}
 };
 

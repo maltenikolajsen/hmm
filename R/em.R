@@ -71,24 +71,11 @@ em <- function(obs, gamma, delta, lls, param_lls, lls_mle, epsilon = 1e-5, max_i
     log_u_hat <- log_beta + log_alpha - log_ll
     u_hat <- exp(log_u_hat)
 
-    log_f <- matrix(NA, nrow = m, ncol = m)
-    f <- matrix(NA, nrow = m, ncol = m)
-    for(j in 1:m){
-      for(k in 1:m){
-        log_v_hat_jk <- log_alpha[j,1:(n-1)] + log_gamma[j,k] + log_p_mat[k,2:n] + log_beta[k,2:n] - log_ll
-        v_hat_jk <- exp(log_v_hat_jk)
-        f[j,k] <- sum(v_hat_jk)
-        k <- max(log_v_hat_jk)
-        log_f[j,k] <- k + log(sum(exp(log_v_hat_jk - k)))
-      }
-    }
-
-
     #M step
 
     # Update transition probs and initial dist
     delta <- u_hat[,1]
-    gamma <- f / rowSums(f)
+    gamma <- exp(update_log_gamma_cpp(log_alpha, log_beta, log_gamma, log_p_mat, log_ll))
 
     # Update parameters for conditional densities
     for(i in 1:m){
