@@ -59,6 +59,13 @@ em <- function(obs, gamma, delta, lls, param_lls, lls_mle, epsilon = 1e-5, max_i
     k <- max(log_alpha[,n])
     log_ll <- k + log(sum(exp(log_alpha[,n] - k)))
 
+    # If log-likelihood is NaN, something has gone wrong (most likely with the provided estimates)
+    # Issue warning and break loop before error occurs
+    if(is.nan(log_ll)){
+      warning('Log-likelihood is NaN! Aborting EM-algorithm...')
+      break
+    }
+
     # Break if change in log-likelihood is small
     if(iteration > 1 && abs(log_ll - logLs[iteration-1]) < epsilon){
       break
