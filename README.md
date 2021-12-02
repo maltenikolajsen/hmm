@@ -2,13 +2,17 @@
 
 ### Purpose and goal
 
-The purpose of this package is to implement methods for handling Hidden Markov Models in a sensible way.
+The purpose of this package is to implement methods for handling Hidden Markov Models (HHMs) in a sensible way.
 
-The goal is to define a HMM as a sensible S3 or S4 object, and define various methods for such objects.
-Possible methods include computing likelihood, random sampling, fitting data as a HMM, decoding hidden states, forecasting, predicting.
-These methods should be implemented using classic methods from HMM theory, such as the forwards-, backwards- and viterbi-algorithm for general distribution.
-
-The interface should be somewhat similar to that of lm.
+The package considers HHMs as S3 object.
+An HMM class is created using the function `hmm`.
+If emission observations are given, an HMM is fitted using the EM-algorithm.
+Methods for the class include 
+- `plot`
+- `simulate`
+- `summary`
+Furthermore, the function `hmm` provides classical decoding of hidden states using posterior probabilities and the Viterbi algorithm.
+What sets apart the package from other packages dealing with HMMs is the ease at which custom emission distributions can be added. 
 
 ### Authors
 
