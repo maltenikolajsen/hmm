@@ -15,8 +15,7 @@ Authors@R: c(
 Description: Implements a central "hmm" object, which fits (or simply defines) a hidden Markov model in `R`.
   If desired, the call to "hmm" will automatically find maximum likelihood estimates of all included parameters using the EM-algorithm.
   Finally, the "hmm"-class has methods for many of the most common generic functions in `R`, making use very easy.
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
