@@ -22,8 +22,8 @@ What sets apart the package from other packages dealing with HMMs is the ease at
 
 This project is made by:
 
-- [Malte Nikolajsen](https://github.com/maltenikolajsen) (Project Manager)
+- [Malte Nikolajsen](https://github.com/maltenikolajsen)
 
-- [Asbjørn Holk Thomsen](https://github.com/asbjornholk) (Quality Manager)
+- [Asbjørn Holk Thomsen](https://github.com/asbjornholk) 
 
-- [Leander Tilsted Kristensen](https://github.com/LeanderTilsted) (Documentation Manager)
+- [Leander Tilsted Kristensen](https://github.com/LeanderTilsted) 
